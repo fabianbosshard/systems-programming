@@ -5,14 +5,24 @@
 #include <termios.h> // raw‑mode keyboard (no Enter needed)
 #include <sys/select.h> // kbhit()‑style polling
 
+
+#define APPLE 0
+#define SNAKE 1
+#define EMPTY 2
+
+#define ANSI_RED    "\x1b[31m"
+#define ANSI_BLUE   "\x1b[34m"
+#define ANSI_RESET  "\x1b[0m"
+
 #define WIDTH  40
-#define HEIGHT 20
+#define HEIGHT 40
 #define INITIAL_LEN 5
 #define TICK_USEC 100000  // microseconds per frame
 
 typedef struct { int r, c; } Point;
 
-enum { UP=0, DOWN, LEFT, RIGHT };
+enum { UP, DOWN, LEFT, RIGHT };
+
 
 static struct termios orig_term; // terminal settings backup
 void restore_terminal() {tcsetattr(STDIN_FILENO, TCSANOW, &orig_term);} // restore terminal to original settings
@@ -37,17 +47,20 @@ void clear_screen() {write(STDOUT_FILENO, "\033[H\033[J", 6);} // clear screen a
 
 void print_board(char board[HEIGHT][WIDTH], int score) {
     clear_screen();
-    for (int j = 0; j < WIDTH+2; j++) putchar('#'); // top border
+    for (int j = 0; j < WIDTH+2; j++) printf("\xe2\x96\x93""\xe2\x96\x93"); // top border
     putchar('\n');
     for (int i = 0; i < HEIGHT; i++) {
-        putchar('#'); // left boarder
+        printf("\xe2\x96\x93""\xe2\x96\x93"); // left boarder
         for (int j = 0; j < WIDTH; j++) {
-            putchar(board[i][j]); // inner positions
+            switch (board[i][j]) { // inner positions
+                case EMPTY: printf("  "); break;
+                case SNAKE: printf(ANSI_BLUE "\xe2\x96\x88""\xe2\x96\x88" ANSI_RESET); break;
+                case APPLE: printf(ANSI_RED  "\xe2\x96\x88""\xe2\x96\x88" ANSI_RESET); break;
+            }
         }
-        putchar('#'); // right border
-        putchar('\n');
+        printf("\xe2\x96\x93""\xe2\x96\x93""\n"); // right border
     }
-    for (int c = 0; c < WIDTH+2; c++) putchar('#'); // bottom border
+    for (int c = 0; c < WIDTH+2; c++) printf("\xe2\x96\x93""\xe2\x96\x93"); // bottom border
     putchar('\n');
     printf("Score: %d\n", score);
 }
@@ -66,14 +79,14 @@ int main() {
     // init board empty
     for (int i = 0; i < HEIGHT; i++)
         for (int j = 0; j < WIDTH; j++)
-            board[i][j] = ' ';
+            board[i][j] = EMPTY;
 
     // init snake in middle
     int midr = HEIGHT/2, midc = WIDTH/2;
     for (int n = 0; n < INITIAL_LEN; n++) {
         snake[n].r = midr;
         snake[n].c = midc - (INITIAL_LEN-1) + n;
-        board[midr][midc - (INITIAL_LEN-1) + n] = '+';
+        board[midr][midc - (INITIAL_LEN-1) + n] = SNAKE;
     }
     head = INITIAL_LEN - 1;
 
@@ -81,8 +94,29 @@ int main() {
     Point apple;
     while (1) {
         int ar = rand()%HEIGHT, ac = rand()%WIDTH;
-        if (board[ar][ac] == ' ') { apple.r = ar; apple.c = ac; board[ar][ac] = '@'; break; }
+        if (board[ar][ac] == EMPTY) { apple.r = ar; apple.c = ac; board[ar][ac] = APPLE; break; }
     }
+
+    // 1) draw the empty board with snake + apple
+    print_board(board, score);
+
+    // 2) block until the user hits a key
+    while (!kbhit()) {
+        usleep(TICK_USEC);
+    }
+    char ch = getchar();
+    // 3a) if they hit 'q', quit
+    if (ch == 'q' || ch == 'Q') {
+        restore_terminal();
+        clear_screen();
+        printf("Bye\n");
+        return 0;
+    }
+    // 3b) otherwise treat it as an initial direction
+    if ((ch=='w' || ch=='W') && dir!=DOWN)    dir = UP;
+    else if ((ch=='s' || ch=='S') && dir!=UP) dir = DOWN;
+    else if ((ch=='a' || ch=='A') && dir!=RIGHT)  dir = LEFT;
+    else if ((ch=='d' || ch=='D') && dir!=LEFT)   dir = RIGHT;
 
     // game loop
     while (1) {
@@ -105,24 +139,24 @@ int main() {
         else if (dir==RIGHT) nxt.c++;
         // check collisions
         if (nxt.r<0||nxt.r>=HEIGHT||nxt.c<0||nxt.c>=WIDTH) break;
-        if (board[nxt.r][nxt.c] == '+') break;
+        if (board[nxt.r][nxt.c] == SNAKE) break;
         // move head
         head = (head + 1) % (WIDTH*HEIGHT);
         snake[head] = nxt;
-        int ate = (board[nxt.r][nxt.c]=='@');
-        board[nxt.r][nxt.c] = '+';
+        int ate = (board[nxt.r][nxt.c]==APPLE);
+        board[nxt.r][nxt.c] = SNAKE;
         if (ate) {
             score++;
             length++;
             // place new apple
             while (1) {
                 int ar = rand()%HEIGHT, ac = rand()%WIDTH;
-                if (board[ar][ac] == ' ') { apple.r = ar; apple.c = ac; board[ar][ac] = '@'; break; }
+                if (board[ar][ac] == EMPTY) { apple.r = ar; apple.c = ac; board[ar][ac] = APPLE; break; }
             }
         } else {
             // remove tail
             Point t = snake[tail];
-            board[t.r][t.c] = ' ';
+            board[t.r][t.c] = EMPTY;
             tail = (tail + 1) % (WIDTH*HEIGHT);
         }
         print_board(board, score);
