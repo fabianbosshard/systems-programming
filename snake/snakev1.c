@@ -10,9 +10,10 @@
 #define SNAKE 1
 #define EMPTY 2
 
-#define ANSI_RED    "\x1b[31m"
-#define ANSI_BLUE   "\x1b[34m"
-#define ANSI_RESET  "\x1b[0m"
+#define BG_RED     "\x1b[41m"   // red background
+#define BG_BLUE    "\x1b[44m"   // blue background
+#define BG_GRAY    "\x1b[100m"  // bright-black (gray) background
+#define ANSI_RESET "\x1b[0m"
 
 #define WIDTH  40
 #define HEIGHT 40
@@ -47,20 +48,20 @@ void clear_screen() {write(STDOUT_FILENO, "\033[H\033[J", 6);} // clear screen a
 
 void print_board(char board[HEIGHT][WIDTH], int score) {
     clear_screen();
-    for (int j = 0; j < WIDTH+2; j++) printf("\xe2\x96\x93""\xe2\x96\x93"); // top border
+    for (int j = 0; j < WIDTH+2; j++) printf(BG_GRAY "  " ANSI_RESET); // top border
     putchar('\n');
     for (int i = 0; i < HEIGHT; i++) {
-        printf("\xe2\x96\x93""\xe2\x96\x93"); // left boarder
+        printf(BG_GRAY "  " ANSI_RESET); // left boarder
         for (int j = 0; j < WIDTH; j++) {
             switch (board[i][j]) { // inner positions
                 case EMPTY: printf("  "); break;
-                case SNAKE: printf(ANSI_BLUE "\xe2\x96\x88""\xe2\x96\x88" ANSI_RESET); break;
-                case APPLE: printf(ANSI_RED  "\xe2\x96\x88""\xe2\x96\x88" ANSI_RESET); break;
+                case SNAKE: printf(BG_BLUE "  " ANSI_RESET); break;
+                case APPLE: printf(BG_RED  "  " ANSI_RESET); break;
             }
         }
-        printf("\xe2\x96\x93""\xe2\x96\x93""\n"); // right border
+        printf(BG_GRAY "  " ANSI_RESET); putchar('\n'); // right border
     }
-    for (int c = 0; c < WIDTH+2; c++) printf("\xe2\x96\x93""\xe2\x96\x93"); // bottom border
+    for (int c = 0; c < WIDTH+2; c++) printf(BG_GRAY "  " ANSI_RESET); // bottom border
     putchar('\n');
     printf("Score: %d\n", score);
 }
