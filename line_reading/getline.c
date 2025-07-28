@@ -13,6 +13,10 @@ char * readline(FILE * fp) {
         buf[i++] = (char)c;
         buf[i] = '\0';
     }
+    if (c == '\n' && buf == NULL) {
+        buf = malloc(1);
+        buf[0] = '\0';
+    }
     return buf;
 }
 
