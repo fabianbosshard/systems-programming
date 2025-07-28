@@ -21,5 +21,10 @@ char * readline(FILE * fp) {
 }
 
 int main(int argc, char * argv[]) {
-    
+    char * line;
+    while (line = readline(stdin)) { //  NULL is “false” in C
+        fputs(line, stdout);
+        putc('\n', stdout);
+        free(line);
+    }
 }
