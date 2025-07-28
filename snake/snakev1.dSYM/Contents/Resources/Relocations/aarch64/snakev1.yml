@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/fabianbosshard/Documents/Studium/AI USI/Semester1/Systems_Programming/preparation/snake/snakev1'
+relocations:     []
+...
