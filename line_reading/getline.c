@@ -8,23 +8,18 @@ char * readline(FILE * fp) {
     int c;
     while (1) {
         c = getc(fp);
-        if (c == EOF) {
-            break;
-        }
-        if (c == '\n') {
-            if (!buf) {
-                buf = malloc(sizeof(char));
-                buf[0] = '\0';
-            }
-            break;
-        }
+        if (c == EOF || c == '\n') break;
         buf = realloc(buf, (i + 2) * sizeof(char));
         buf[i++] = (char)c;
         buf[i] = '\0';
+    }
+    if (c == '\n' && !buf) { // if we saw a bare '\n' and never allocated, return ""
+        buf = malloc(sizeof(char));
+        buf[0] = '\0';
     }
     return buf;
 }
 
 int main(int argc, char * argv[]) {
-
+    
 }
