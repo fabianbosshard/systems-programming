@@ -8,14 +8,19 @@ char * readline(FILE * fp) {
     int c;
     while (1) {
         c = getc(fp);
-        if (c == EOF || c == '\n') break;
+        if (c == EOF) {
+            break;
+        }
+        if (c == '\n') {
+            if (!buf) {
+                buf = malloc(sizeof(char));
+                buf[0] = '\0';
+            }
+            break;
+        }
         buf = realloc(buf, (i + 2) * sizeof(char));
         buf[i++] = (char)c;
         buf[i] = '\0';
-    }
-    if (c == '\n' && buf == NULL) {
-        buf = malloc(1);
-        buf[0] = '\0';
     }
     return buf;
 }
