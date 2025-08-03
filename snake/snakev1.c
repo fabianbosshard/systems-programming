@@ -114,10 +114,10 @@ int main() {
         return 0;
     }
     // 3b) otherwise treat it as an initial direction
-    if ((ch=='w' || ch=='W') && dir!=DOWN)    dir = UP;
-    else if ((ch=='s' || ch=='S') && dir!=UP) dir = DOWN;
-    else if ((ch=='a' || ch=='A') && dir!=RIGHT)  dir = LEFT;
-    else if ((ch=='d' || ch=='D') && dir!=LEFT)   dir = RIGHT;
+    if ((ch=='w' || ch=='W') && dir!=DOWN)          dir = UP;
+    else if ((ch=='s' || ch=='S') && dir!=UP)       dir = DOWN;
+    else if ((ch=='a' || ch=='A') && dir!=RIGHT)    dir = LEFT;
+    else if ((ch=='d' || ch=='D') && dir!=LEFT)     dir = RIGHT;
 
     // game loop
     while (1) {
@@ -126,10 +126,10 @@ int main() {
         if (kbhit()) {
             char ch = getchar();
             if (ch == 'q') break;
-            if ((ch=='w' || ch=='W') && dir!=DOWN)    dir = UP;
-            if ((ch=='s' || ch=='S') && dir!=UP)      dir = DOWN;
-            if ((ch=='a' || ch=='A') && dir!=RIGHT)   dir = LEFT;
-            if ((ch=='d' || ch=='D') && dir!=LEFT)    dir = RIGHT;
+            if ((ch=='w' || ch=='W') && dir!=DOWN)  dir = UP;
+            if ((ch=='s' || ch=='S') && dir!=UP)    dir = DOWN;
+            if ((ch=='a' || ch=='A') && dir!=RIGHT) dir = LEFT;
+            if ((ch=='d' || ch=='D') && dir!=LEFT)  dir = RIGHT;
         }
         // compute new head
         Point cur = snake[head];

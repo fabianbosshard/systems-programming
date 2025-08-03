@@ -22,9 +22,22 @@ char * readline(FILE * fp) {
 
 int main(int argc, char * argv[]) {
     char * line;
-    while (line = readline(stdin)) { //  NULL is “false” in C
-        fputs(line, stdout);
-        putc('\n', stdout);
+    FILE * fp1 = fopen("test1", "r");
+    FILE * fp2 = fopen("test2", "r");
+    FILE * fp1out = fopen("result1", "w");
+    FILE * fp2out = fopen("result2", "w");
+    while (line = readline(fp1)) { //  NULL is “false” in C
+        fputs(line, fp1out);
+        putc('\n', fp1out);
         free(line);
     }
+    while (line = readline(fp2)) { //  NULL is “false” in C
+        fputs(line, fp2out);
+        putc('\n', fp2out);
+        free(line); 
+    }
+    fclose(fp1);
+    fclose(fp2);
+    fclose(fp1out);
+    fclose(fp2out);
 }
