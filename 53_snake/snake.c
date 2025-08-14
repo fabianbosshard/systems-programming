@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // snake directions
 #define SNAKE_UP 1
@@ -13,7 +12,6 @@
 #define SNAKE_FAIL 2
 #define SNAKE_NEW 3
 
-
 struct point {
     int c;
     int r;
@@ -23,13 +21,14 @@ struct snake {
     int cols;
     int rows;
 
-    char * board;
+    char * board; //  idx = r * cols + c  <=>  r = idx / cols, c = idx % rows
 
-    int maxlength;
-
-    //    addr = r * cols + c         |        r = addr / cols,     c = addr % rows
-    struct point * body;
     int len;
+    
+    int maxlength;
+    struct point * body;
+    int head; // idx for body array
+    int tail; // idx for body array
 
     int status;
     int dir;
@@ -39,13 +38,13 @@ struct snake * snake_new(int c, int r, int l) {
     struct snake * s = realloc(NULL, sizeof(struct snake));
     s->board = realloc(NULL, c * r * sizeof(char) + 1); // space for terminating null character
     s->board[c * r] = '\0';
-    s->body = NULL;
     s->cols = c;
     s->rows = r;
     s->status = SNAKE_NEW;
     s->maxlength = l;
     return s;
 }
+
 
 void snake_destroy(struct snake * s) {
     free(s->board);
@@ -54,20 +53,19 @@ void snake_destroy(struct snake * s) {
 }
 
 int head(struct snake * s) {
-    return s->body[0].r * s->cols + s->body[0].c;
-}
-int limb(struct snake * s, int nr) {
-    return s->body[nr].r * s->cols + s->body[nr].c;
+    return s->body[s->head].r * s->cols + s->body[s->head].c; // head idx inside board string
 }
 int tail(struct snake * s) {
-    return s->body[s->len - 1].r * s->cols + s->body[s->len - 1].c;
+    return s->body[s->tail].r * s->cols + s->body[s->tail].c; // tail idx inside board string
 }
 
 int snake_start (struct snake * s, int c, int r, int d) {
-    if ((0 <= c && c < s->cols) && (0 <= r && r < s->rows) && (d == SNAKE_UP || d == SNAKE_DOWN || d == SNAKE_LEFT || d == SNAKE_RIGHT)){
-        s->body = realloc(s->body, sizeof(struct point));
-        s->body[0].c = c;
-        s->body[0].r = r; 
+    if ((0 <= c && c < s->cols) && (0 <= r && r < s->rows) && (d == SNAKE_UP || d == SNAKE_DOWN || d == SNAKE_LEFT || d == SNAKE_RIGHT)) {
+        s->body = realloc(NULL, s->maxlength * sizeof(struct point));
+        s->head = 0;
+        s->tail = 0;
+        s->body[s->head].c = c;
+        s->body[s->head].r = r; 
         s->len = 1;
         s->dir = d;
         for (int i = 0; i < s->rows * s->cols; i++) {
@@ -86,19 +84,19 @@ int snake_change_direction (struct snake * s, int d) {
         s->dir = d;
         return s->status;
     } 
-    return SNAKE_OKAY;
+    return SNAKE_FAIL;
 }
-
 
 int snake_step (struct snake * s) {
     if (s->status == SNAKE_OKAY) {
-        int r_head_before = s->body[0].r;   
-        int c_head_before = s->body[0].c;   
-        int r_head_after = r_head_before;    
-        int c_head_after = c_head_before;
-
         int old_head_idx = head(s);
         int old_tail_idx = tail(s);
+
+        int r_head_before = s->body[s->head].r;   
+        int c_head_before = s->body[s->head].c;   
+
+        int r_head_after = r_head_before;    
+        int c_head_after = c_head_before;
 
         switch (s->dir) {
             case SNAKE_UP: r_head_after = r_head_before - 1; break;
@@ -106,30 +104,23 @@ int snake_step (struct snake * s) {
             case SNAKE_LEFT: c_head_after = c_head_before - 1; break;
             case SNAKE_RIGHT: c_head_after = c_head_before + 1; break;
         }
-        if (
-                   (0 <= c_head_after && c_head_after < s->cols) 
+        if  (      (0 <= c_head_after && c_head_after < s->cols) 
                 && (0 <= r_head_after && r_head_after < s->rows) 
-                && (    
-                            (s->board)[r_head_after * s->cols + c_head_after] == ' ' 
+                && (        (s->board)[r_head_after * s->cols + c_head_after] == ' ' 
                         || ((s->board)[r_head_after * s->cols + c_head_after] == '+' && s->len == s->maxlength))
-        ) {
+            ) {
+            s->head = (s->head + 1) % s->maxlength;
             if (s->len < s->maxlength) {
-                s->body = realloc(s->body, (++(s->len)) * sizeof(struct point));
+                s->len++;
+            } else {
+                s->tail = (s->tail + 1) % (s->maxlength);
             }
-            for (int k = s->len - 1; k > 0; k--) {
-                s->body[k] = s->body[k - 1];
-            }
-            s->body[0].c = c_head_after;
-            s->body[0].r = r_head_after;
-            if (s->len > 2) {
-                s->board[old_head_idx] = '#';
-            }
-            if (s->len == s->maxlength) {
-                s->board[old_tail_idx] = ' ';
-            }
-            (s->board)[tail(s)] = '+';
-            (s->board)[head(s)] = '@';
-
+            s->body[s->head].c = c_head_after;
+            s->body[s->head].r = r_head_after;
+            s->board[old_head_idx] = '#';
+            s->board[old_tail_idx] = ' ';
+            s->board[tail(s)] = '+';
+            s->board[head(s)] = '@';
             return SNAKE_OKAY;
         } else {
             s->status = SNAKE_FAIL;
@@ -137,9 +128,11 @@ int snake_step (struct snake * s) {
     }
     return SNAKE_FAIL;
 }
+
 const char * snake_get_field (const struct snake * s) {
     return s->board;
 }
+
 int snake_get_status (const struct snake * s) {
     return s->status;
 }
