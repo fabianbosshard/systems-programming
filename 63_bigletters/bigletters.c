@@ -23,6 +23,15 @@ int height_total; // = altitude_max + depth_max
 
 struct letter format[256];
 
+
+int get_num(FILE * fp, int * cp) { 
+    int num = 0;
+    while (isdigit((unsigned char)(*cp = getc(fp)))) {
+        num = 10 * num + (*cp - '0');
+    }
+    return num;
+}
+
 int get_formatting(FILE * fp) {
     for (int i = 0; i < 256; i++) {
         format[i].letter = i;
@@ -35,9 +44,10 @@ int get_formatting(FILE * fp) {
     int c;
     while ((c = getc(fp)) != EOF) {
         if (c == '\n' || c == '\r') continue; // ignore empty lines
-        unsigned char cur = c;
-        int width, height, depth;
-        if (fscanf(fp, " %d %d %d:", &width, &height, &depth) != 3) return 1;
+        unsigned char cur = (unsigned char)c; c = getc(fp); if (c != ' ') return 1;
+        int width = get_num(fp, &c); if (c != ' ') return 1;
+        int height = get_num(fp, &c); if (c != ' ') return 1;
+        int depth = get_num(fp, &c); if (c != ':') return 1;
         char * appear = realloc(format[cur].appearance, sizeof(char) * width * height);
         for (int i = 0; i < width * height; i++) {
             appear[i] = getc(fp);
