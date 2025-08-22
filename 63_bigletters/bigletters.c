@@ -23,13 +23,18 @@ int height_total; // = altitude_max + depth_max
 
 struct letter format[256];
 
-
+int issign(char c) {return (c == '+' || c == '-') ? 1 : 0;}
 int get_num(FILE * fp, int * cp) { 
-    int num = 0;
+    int sign = 1, num = 0;
+    if (issign((*cp = getc(fp)))) {
+        if (*cp == '-') sign = -1;
+    } else if (isdigit(*cp)) {
+        num = *cp - '0';
+    } else return 0;
     while (isdigit((unsigned char)(*cp = getc(fp)))) {
         num = 10 * num + (*cp - '0');
     }
-    return num;
+    return sign * num;
 }
 
 int get_formatting(FILE * fp) {
