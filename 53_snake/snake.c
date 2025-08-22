@@ -35,8 +35,8 @@ struct snake {
 };
 
 struct snake * snake_new(int c, int r, int l) {
-    struct snake * s = realloc(NULL, sizeof(struct snake));
-    s->board = realloc(NULL, c * r * sizeof(char) + 1); // space for terminating null character
+    struct snake * s = (struct snake *) realloc(NULL, sizeof(struct snake));
+    s->board = (char *) realloc(NULL, c * r * sizeof(char) + 1); // space for terminating null character
     s->board[c * r] = '\0';
     s->cols = c;
     s->rows = r;
@@ -61,7 +61,7 @@ int tail(struct snake * s) {
 
 int snake_start (struct snake * s, int c, int r, int d) {
     if ((0 <= c && c < s->cols) && (0 <= r && r < s->rows) && (d == SNAKE_UP || d == SNAKE_DOWN || d == SNAKE_LEFT || d == SNAKE_RIGHT)) {
-        s->body = realloc(NULL, s->maxlength * sizeof(struct point));
+        s->body = (struct point *) realloc(NULL, s->maxlength * sizeof(struct point));
         s->head = 0;
         s->tail = 0;
         s->body[s->head].c = c;
