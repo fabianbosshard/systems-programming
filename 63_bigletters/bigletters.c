@@ -150,7 +150,6 @@ void show() {
 }
 
 
-
 int main(int argc, char * argv[]) {
     FILE * fp = NULL;
     if (argc == 1) {
@@ -162,10 +161,8 @@ int main(int argc, char * argv[]) {
         if ((fp = fopen(argv[1], "r"))) {
             if (get_formatting(fp)) return 1;
             fclose(fp);
-        }
-    } else {
-        return 1;
-    }
+        } else return 1; // error if user-specified font file can't be opened
+    } else return 1; // error if more than one CL argument is provided
     process_lines();
     free_formatting();
     return 0;
