@@ -128,8 +128,8 @@ void render_line(char * line) {
 }
 
 void process_lines() {
-    char line[MAXLEN];
-    while (fgets(line, MAXLEN, stdin)) {
+    char line[MAXLEN + 1]; // space for '\0'
+    while (fgets(line, MAXLEN + 1, stdin)) {
         if (strlen(line) > 0 && line[strlen(line) - 1] == '\n') {
             line[strlen(line) - 1] = '\0';
         }
