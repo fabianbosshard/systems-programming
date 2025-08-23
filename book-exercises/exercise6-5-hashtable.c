@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 
-#define HASHSIZE 101
+#define N 101 //hashsize
 
 struct listnode {
     struct listnode * next;
@@ -12,7 +12,7 @@ struct listnode {
     char * d; // definition
 };
 
-struct listnode * hashtab[HASHSIZE];
+struct listnode * T[N]; // hashtable
 
 /* compute hash value from string (i.e. from a name) */
 unsigned h(char * s) {
@@ -20,13 +20,13 @@ unsigned h(char * s) {
     for (hashval = 0; *s != '\0'; s++) {
         hashval = *s + 31 * hashval;
     }
-    return hashval % HASHSIZE;
+    return hashval % N;
 }
 
 /* look for string in the hashtable (i.e. if the name already exists) */
 struct listnode * lookup(char * s) {
     struct listnode * np;
-    for (np = hashtab[h(s)]; np != NULL; np = np->next) { // standard idiom for walking along a linked list
+    for (np = T[h(s)]; np != NULL; np = np->next) { // standard idiom for walking along a linked list
         if (strcmp(s, np->n) == 0) { 
             return np; // found name, so return address of it
         }
@@ -42,15 +42,15 @@ char * str_dub(char * str) {
     return p;
 }
 
-/* put the pair (name, definition) in hashtab */
+/* put the pair (name, definition) in T */
 struct listnode * install(char * s, char * definition) {
     struct listnode * np;
     np = lookup(s);
     if (np == NULL) { // name not found in hashtable => create new node
         np = malloc(sizeof(struct listnode)); // create list node
         np->n = str_dub(s); // copy name
-        np->next = hashtab[h(s)];
-        hashtab[h(s)] = np; // insert at head
+        np->next = T[h(s)];
+        T[h(s)] = np; // insert at head
     } else { // name already there => free old definition
         free(np->d);
     }
@@ -64,9 +64,9 @@ void uninstall (char * s) {
     if (np == NULL) {
         return;
     }
-    struct listnode * prev = hashtab[h(s)];
+    struct listnode * prev = T[h(s)];
     if (prev == np) {
-        hashtab[h(s)] = np->next;
+        T[h(s)] = np->next;
     } else {
         while (prev->next != np) prev = prev->next; // obtain predecessor
         prev->next = np->next;
@@ -117,8 +117,8 @@ int main(void) {
             }
 
         } else if (strcmp(cmd, "print") == 0) {
-            for (int i = 0; i < HASHSIZE; i++) {
-                struct listnode *np = hashtab[i];
+            for (int i = 0; i < N; i++) {
+                struct listnode *np = T[i];
                 if (!np) continue;
                 printf("[%d]:", i);
                 for (; np; np = np->next)
