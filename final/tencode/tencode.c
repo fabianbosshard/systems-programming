@@ -145,7 +145,7 @@ void encode_text(FILE * fp) {
         fputs(code[i], stdout);
     }
     if (code[0]) putc('\n', stdout);
-    
+
     // body
     while ((c = getc(fp)) != EOF) {
         if (isalpha(c)) {
@@ -176,23 +176,22 @@ void delete_code() {
 int main (int argc, char * argv[]) {
     char * input = get_input();
 
-    FILE * input_fp = fopen("input", "w");
-    fputs(input, input_fp);
-    fclose(input_fp);
+    FILE * fp = tmpfile();
+    fputs(input, fp);
     free(input);
 
-    FILE * fp = fopen("input", "r");
+    rewind(fp);
+
     build_vocab(fp);
-    fclose(fp);
+
+    rewind(fp);
 
     init_gains();
     sort_vocab();
     init_code();
-
-    fp = fopen("input", "r");
     encode_text(fp);
+    
     fclose(fp);
-
     delete_code();
     delete_vocab();
 }
