@@ -69,4 +69,5 @@ int main (int argc, char * argv[]) {
         get_code();
     }
     decode_text();
+    delete_code();
 }
