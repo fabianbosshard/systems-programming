@@ -79,16 +79,8 @@ void init_gains() {
     for (int i = 0; i < voc.size(); i++) voc[i].g = voc[i].c * voc[i].l - voc[i].l - 1 - voc[i].c;
 }
 
-void sort_vocab() {
-    for (int i = 0; i < voc.size(); i++) {
-        for (int j = i + 1; j < voc.size(); j++) {
-            if (voc[i].g < voc[j].g || (voc[i].g == voc[j].g && strcmp(voc[i].str, voc[j].str) > 0)) {
-                struct word temp = voc[i];
-                voc[i] = voc[j];
-                voc[j] = temp;
-            }
-        }
-    }
+bool word_compare(struct word w1, struct word w2) {
+    return w1.g > w2.g || (w1.g == w2.g && strcmp(w1.str, w2.str) < 0);
 }
 
 void print_vocab() {
@@ -176,7 +168,7 @@ int main (int argc, char * argv[]) {
     fclose(fp);
 
     init_gains();
-    sort_vocab();
+    std::sort(voc.begin(), voc.end(), word_compare);
     init_code();
 
     fp = fopen("input", "r");
