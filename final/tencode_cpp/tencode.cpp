@@ -129,21 +129,17 @@ void encode_text(FILE * fp) {
 int main (int argc, char * argv[]) {
     std::string input = get_input();
 
-    FILE * fp;
-    
-    fp = fopen("input", "w");
+    FILE * fp = tmpfile(); // unnamed temporary file (instead of creating one on disk)
     fputs(input.c_str(), fp);
-    fclose(fp);
 
-    fp = fopen("input", "r");
-    build_vocab(fp);
-    fclose(fp);
+    rewind(fp);
+    build_vocab(fp); // pass 1
 
-    init_gains();
+    init_gains(); // compute gains
     std::sort(voc.begin(), voc.end(), word_compare);
-    init_code();
+    init_code(); // compute codes
 
-    fp = fopen("input", "r");
-    encode_text(fp);
+    rewind(fp);
+    encode_text(fp); // pass 2
     fclose(fp);
 }
