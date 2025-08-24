@@ -4,8 +4,8 @@
 #include <cctype>    // isalpha
 #include <string>    // std::string
 #include <vector>    // std::vector
-#include <algorithm> // std::sort
 #include <map>       // std::map
+#include <algorithm> // std::sort
 
 
 /* I/O section */
@@ -49,12 +49,12 @@ void build_vocab(FILE * fp) {
         if (isalpha(c)) {
             ungetc(c, fp);
             str = get_word(fp);
-            if (voc_idx.find(str) != voc_idx.end()) { // if word was already seen
-                voc[voc_idx[str]].c++; // increase count
-            } else { // otherwise
+            if (voc_idx.find(str) == voc_idx.end()) { // if word has not been encountered before
                 struct word w = {str, str.size(), 1};
                 voc.push_back(w); // add word to the vocabulary
                 voc_idx[w.str] = voc.size() - 1;
+            } else {  // if word was already seen
+                voc[voc_idx[str]].c++; // increase count
             }
         } 
     }
@@ -129,11 +129,13 @@ void encode_text(FILE * fp) {
 int main (int argc, char * argv[]) {
     std::string input = get_input();
 
-    FILE * input_fp = fopen("input", "w");
-    fputs(input.c_str(), input_fp);
-    fclose(input_fp);
+    FILE * fp;
+    
+    fp = fopen("input", "w");
+    fputs(input.c_str(), fp);
+    fclose(fp);
 
-    FILE * fp = fopen("input", "r");
+    fp = fopen("input", "r");
     build_vocab(fp);
     fclose(fp);
 
