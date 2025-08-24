@@ -38,7 +38,7 @@ char * get_word(FILE * fp) {
 /* vocabulary section */
 
 struct word {
-    char * str;
+    std::string str;
     int l;
     int c;
     int g;
@@ -49,7 +49,7 @@ std::vector <word> voc;
 
 int lookup(char * str) {
     for (int i = 0; i < voc.size(); i++) {
-        if (strcmp(str, voc[i].str) == 0) {
+        if (str ==  voc[i].str) {
             return i; // found at location i
         }
     }
@@ -80,37 +80,29 @@ void init_gains() {
 }
 
 bool word_compare(struct word w1, struct word w2) {
-    return w1.g > w2.g || (w1.g == w2.g && strcmp(w1.str, w2.str) < 0);
+    return w1.g > w2.g || (w1.g == w2.g && w1.str < w2.str);
 }
 
 void print_vocab() {
     for (int i = 0; i < voc.size(); i++) {
-        printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc[i].c, voc[i].l, voc[i].str);
+        printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc[i].c, voc[i].l, voc[i].str.c_str());
     }
-}
-
-void delete_vocab() {
-    for (int i = 0; i < voc.size(); i++) {
-        free(voc[i].str);
-        voc[i].str = NULL;
-    }
-    voc.clear(); // optional; vector will clean up on exit anyway
 }
 
 
 /* code secction */
 
-char * code[128];
+std::string code[128];
 
 void init_code() {
     for (int i = 0; i < 128; i++) {
-        code[i] = i < voc.size() && voc[i].g > 0 ? voc[i].str : NULL;
+        code[i] = (i < voc.size() && voc[i].g > 0) ? voc[i].str : "";
     }
 }
 
 int get_code(char * str) {
     for (int i = 0; i < 128; i++) {
-        if (code[i] && strcmp(str, code[i]) == 0) {
+        if (!code[i].empty() && str == code[i]) {
             return i + 128;
         }
     }
@@ -122,11 +114,11 @@ void encode_text(FILE * fp) {
     char * str;
 
     // header
-    for (int i = 0; i < 128 && code[i]; i++) {
+    for (int i = 0; i < 128 && !code[i].empty(); i++) {
         putc(i + 128, stdout);
-        fputs(code[i], stdout);
+        fputs(code[i].c_str(), stdout);
     }
-    if (code[0]) putc('\n', stdout);
+    if (!code[0].empty()) putc('\n', stdout);
     
     // body
     while ((c = getc(fp)) != EOF) {
@@ -146,11 +138,6 @@ void encode_text(FILE * fp) {
     }
 }
 
-void delete_code() {
-    for (int i = 0; i < 128; i++) {
-        code[i] = NULL;
-    }
-}
 
 
 /* main */
@@ -174,7 +161,4 @@ int main (int argc, char * argv[]) {
     fp = fopen("input", "r");
     encode_text(fp);
     fclose(fp);
-
-    delete_code();
-    delete_vocab();
 }
