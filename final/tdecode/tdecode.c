@@ -29,7 +29,12 @@ char * get_word() {
 void get_code() {
     int c;
     while ((c = getc(stdin)) != '\n') {
-        code[c - 128] = get_word();
+        if (c >= 128) {
+            if (code[c - 128]) exit(EXIT_FAILURE);
+            code[c - 128] = get_word();
+        } else {
+            exit(EXIT_FAILURE);
+        }
     }
 }
 
@@ -43,9 +48,11 @@ void delete_code() {
 void decode_text() {
     int c;
     while ((c = getc(stdin)) != EOF) {
-        if (!(c < 128)) {
+        if (c >= 128) {
             if (code[c - 128]) {
                 fputs(code[c - 128], stdout);
+            } else {
+                exit(EXIT_FAILURE);
             }
         } else {
             putc(c, stdout);
@@ -58,7 +65,7 @@ int main (int argc, char * argv[]) {
     init_code();
     int c = getc(stdin);
     ungetc(c, stdin);
-    if (!(c < 128)) {
+    if (c >= 128) {
         get_code();
     }
     decode_text();
