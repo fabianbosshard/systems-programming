@@ -1,10 +1,8 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
-#include <iterator>
-#include <cctype>
+#include <cstdio>   // FILE, fopen, fclose, getc, putc, fputs, printf, stdin, stdout
+#include <cstdlib>  // malloc, realloc, free
+#include <cstring>  // strlen, strcmp
+#include <cctype>   // isalpha
+#include <vector>   // std::vector
 
 
 /* I/O section */
@@ -58,11 +56,6 @@ int lookup(char * str) {
     return -1; // not found
 }
 
-void add_word_to_vocab(char * str) {
-    struct word w = {str, strlen(str), 1};
-    voc.push_back(w);
-}
-
 void build_vocab(FILE * fp) {
     int c;
     char * str;
@@ -75,7 +68,8 @@ void build_vocab(FILE * fp) {
                 free(str); // do not need this string anymore (word struct already contains one with the identical content)...
                 voc[i].c++; // increase count
             } else { // otherwise
-                add_word_to_vocab(str); // add word to the vocabulary
+                struct word w = {str, strlen(str), 1};
+                voc.push_back(w); // add word to the vocabulary
             }
         } 
     }
