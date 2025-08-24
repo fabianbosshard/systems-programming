@@ -12,10 +12,7 @@ simple game engine: board state, movement, growth, and collision handling.
 ## [Big Letters](63_bigletters/bigletters.c)
 ASCII big-letter renderer that parses a font file and prints enlarged text given as stdin input using a fancy font from the specified font file.
 
-### How to run:
-```bash
-make
-```
+### How to use:
 ```bash
 ./bigletters latexfont.txt <<< "LATEX"
 ```
@@ -38,6 +35,20 @@ Output:
 
 ## [Show Bit Pattern](show_bit_pattern/show_bits.c)
 prints the bit pattern of integers.
+
+### How to use:
+```bash
+./show_bits 42
+```
+Output:
+```
+  _  _     _  _     _  _     _  _  
+ | || |   | || |   | || |    _||_| 
+ |_||_|   |_||_|   |_||_|   |_ | | 
+□□□□□□□□ □□□□□□□□ □□□□□□□□ □□■□■□■□
+                           ⁷      ⁰
+```
+
 
 
 ## [Print Number Recursively](print_number_recursively/print_number_recursively.c)
