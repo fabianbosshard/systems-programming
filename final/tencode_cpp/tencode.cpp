@@ -1,8 +1,10 @@
-#include <cstdio>   // FILE, fopen, fclose, getc, putc, fputs, printf, stdin, stdout
-#include <cstdlib>  // malloc, realloc, free
-#include <cstring>  // strlen, strcmp
-#include <cctype>   // isalpha
-#include <vector>   // std::vector
+#include <cstdio>    // FILE, fopen, fclose, getc, putc, fputs, printf, stdin, stdout
+#include <cstdlib>   // malloc, realloc, free
+#include <cstring>   // strlen
+#include <cctype>    // isalpha
+#include <string>    // std::string
+#include <vector>    // std::vector
+#include <algorithm> // std::sort
 
 
 /* I/O section */
