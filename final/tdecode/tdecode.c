@@ -18,8 +18,8 @@ char * get_word() {
     int i = 0;
     while (isalpha((c = getc(stdin)))) {
         s[i] = c;
-        s = realloc(s, (i + 1) * sizeof(char));
         i++;
+        s = realloc(s, (i + 1) * sizeof(char));
     }
     s[i] = '\0';
     ungetc(c, stdin);
