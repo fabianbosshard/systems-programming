@@ -5,33 +5,26 @@
 #include <string>    // std::string
 #include <vector>    // std::vector
 #include <algorithm> // std::sort
+#include <map>       // std::map
 
 
 /* I/O section */
 
-char * get_input() {
+std::string get_input() {
     int c;
-    char * s = (char *) malloc(sizeof(char));
-    int i = 0;
+    std::string s;
     while ((c = getc(stdin)) != EOF) {
-        s[i] = c;
-        i++;
-        s = (char *) realloc(s, (i + 1) * sizeof(char));
+        s.push_back((char)c);
     }
-    s[i] = '\0';
     return s;
 }
 
-char * get_word(FILE * fp) {
+std::string get_word(FILE * fp) {
+    std::string s;
     int c;
-    char * s = (char *) malloc(sizeof(char));
-    int i = 0;
     while (isalpha((c = getc(fp)))) {
-        s[i] = c;
-        i++;
-        s = (char *) realloc(s, (i + 1) * sizeof(char));
+        s.push_back((char)c);
     }
-    s[i] = '\0';
     if (c != EOF) ungetc(c, fp);
     return s;
 }
@@ -46,32 +39,22 @@ struct word {
     int g;
 };
 
-
 std::vector <word> voc;
-
-int lookup(char * str) {
-    for (int i = 0; i < voc.size(); i++) {
-        if (str ==  voc[i].str) {
-            return i; // found at location i
-        }
-    }
-    return -1; // not found
-}
+std::map <std::string, int> voc_idx;
 
 void build_vocab(FILE * fp) {
     int c;
-    char * str;
+    std::string str;
     while ((c = getc(fp)) != EOF) {
         if (isalpha(c)) {
             ungetc(c, fp);
             str = get_word(fp);
-            int i = lookup(str);
-            if (i > -1) { // if word was already seen
-                free(str); // do not need this string anymore (word struct already contains one with the identical content)...
-                voc[i].c++; // increase count
+            if (voc_idx.find(str) != voc_idx.end()) { // if word was already seen
+                voc[voc_idx[str]].c++; // increase count
             } else { // otherwise
-                struct word w = {str, strlen(str), 1};
+                struct word w = {str, str.size(), 1};
                 voc.push_back(w); // add word to the vocabulary
+                voc_idx[w.str] = voc.size() - 1;
             }
         } 
     }
@@ -102,7 +85,7 @@ void init_code() {
     }
 }
 
-int get_code(char * str) {
+int get_code(std::string str) {
     for (int i = 0; i < 128; i++) {
         if (!code[i].empty() && str == code[i]) {
             return i + 128;
@@ -113,7 +96,7 @@ int get_code(char * str) {
 
 void encode_text(FILE * fp) {
     int c;
-    char * str;
+    std::string str;
 
     // header
     for (int i = 0; i < 128 && !code[i].empty(); i++) {
@@ -131,9 +114,8 @@ void encode_text(FILE * fp) {
             if (b != -1) {
                 putc(b, stdout);
             } else {
-                fputs(str, stdout);
+                fputs(str.c_str(), stdout);
             }
-            free(str);
         } else {
             putc(c, stdout);
         }
@@ -145,12 +127,11 @@ void encode_text(FILE * fp) {
 /* main */
 
 int main (int argc, char * argv[]) {
-    char * input = get_input();
+    std::string input = get_input();
 
     FILE * input_fp = fopen("input", "w");
-    fputs(input, input_fp);
+    fputs(input.c_str(), input_fp);
     fclose(input_fp);
-    free(input);
 
     FILE * fp = fopen("input", "r");
     build_vocab(fp);
