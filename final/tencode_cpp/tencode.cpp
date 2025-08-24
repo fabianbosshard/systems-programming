@@ -1,19 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <cctype>
 
 
 /* I/O section */
 
 char * get_input() {
     int c;
-    char * s = malloc(sizeof(char));
+    char * s = (char *) malloc(sizeof(char));
     int i = 0;
     while ((c = getc(stdin)) != EOF) {
         s[i] = c;
         i++;
-        s = realloc(s, (i + 1) * sizeof(char));
+        s = (char *) realloc(s, (i + 1) * sizeof(char));
     }
     s[i] = '\0';
     return s;
@@ -21,12 +24,12 @@ char * get_input() {
 
 char * get_word(FILE * fp) {
     int c;
-    char * s = malloc(sizeof(char));
+    char * s = (char *) malloc(sizeof(char));
     int i = 0;
     while (isalpha((c = getc(fp)))) {
         s[i] = c;
         i++;
-        s = realloc(s, (i + 1) * sizeof(char));
+        s = (char *) realloc(s, (i + 1) * sizeof(char));
     }
     s[i] = '\0';
     if (c != EOF) ungetc(c, fp);
@@ -62,7 +65,7 @@ int lookup(char * str) {
 void add_word_to_vocab(char * str) {
     struct word w = {str, strlen(str), 1};
     voc.N++;
-    voc.wordv = realloc(voc.wordv, voc.N * sizeof(struct word));
+    voc.wordv = (struct word *) realloc(voc.wordv, voc.N * sizeof(struct word));
     voc.wordv[voc.N - 1] = w;
 }
 

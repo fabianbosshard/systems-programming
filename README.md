@@ -57,8 +57,8 @@ prints an integer using recursion.
 
 ## [TabOps](midterm) (midterm 2024)
 
-- [tabops](midterm/tabops_11082025/tabops.c)
-- [tabops2](midterm/tabops2_13082025/tabops2.c)
+- [tabops](midterm/tabops/tabops.c)
+- [tabops2](midterm/tabops2/tabops2.c)
 
 
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
