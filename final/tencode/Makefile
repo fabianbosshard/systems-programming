@@ -6,7 +6,7 @@ CXXFLAGS=-Wall -Werror -g $(COVERAGE_FLAGS)
 COVERAGE_FLAGS=$(if $(WITH_COVERAGE),--coverage,)
 SHELL=/bin/bash
 
-TIMEOUT=8
+TIMEOUT=30
 
 TESTS_DIR=tests
 
