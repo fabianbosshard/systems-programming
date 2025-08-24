@@ -49,21 +49,21 @@ int get_formatting(FILE * fp) {
     int c;
     while ((c = getc(fp)) != EOF) {
         if (c == '\n' || c == '\r') continue; // ignore empty lines
-        unsigned char cur = (unsigned char)c; c = getc(fp); if (c != ' ') return 1;
-        int width = get_num(fp, &c); if (c != ' ') return 1;
-        int height = get_num(fp, &c); if (c != ' ') return 1;
-        int depth = get_num(fp, &c); if (c != ':') return 1;
+        unsigned char cur = (unsigned char)c; c = getc(fp); if (c != ' ') return EXIT_FAILURE;
+        int width = get_num(fp, &c); if (c != ' ') return EXIT_FAILURE;
+        int height = get_num(fp, &c); if (c != ' ') return EXIT_FAILURE;
+        int depth = get_num(fp, &c); if (c != ':') return EXIT_FAILURE;
         char * appear = realloc(format[cur].appearance, sizeof(char) * width * height);
         for (int i = 0; i < width * height; i++) {
             appear[i] = getc(fp);
         }
-        if (width <= 0 || height <= 0 || depth < 0 || depth > height) return 1;
+        if (width <= 0 || height <= 0 || depth < 0 || depth > height) return EXIT_FAILURE;
         format[cur].letter = cur;
         format[cur].w = width;
         format[cur].h = height;
         format[cur].d = depth;
         format[cur].appearance = appear;
-        c = getc(fp); if (c != '\n' && c != EOF) return 1;
+        c = getc(fp); if (c != '\n' && c != EOF) return EXIT_FAILURE;
     }
     altitude_max = 1; // altitude = height - depth  (i.e. the height above the baseline)
     depth_max = 0;
@@ -78,7 +78,7 @@ int get_formatting(FILE * fp) {
         format[i].b = height_total - format[i].h_abs;
         format[i].e = format[i].b + format[i].h;
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void free_formatting() {
@@ -147,16 +147,16 @@ int main(int argc, char * argv[]) {
     FILE * fp = NULL;
     if (argc == 1) {
         if ((fp = fopen("FONT", "r"))) {
-            if (get_formatting(fp)) return 1;
+            if (get_formatting(fp)) return EXIT_FAILURE;
             fclose(fp);
         }
     } else if (argc == 2) {
         if ((fp = fopen(argv[1], "r"))) {
-            if (get_formatting(fp)) return 1;
+            if (get_formatting(fp)) return EXIT_FAILURE;
             fclose(fp);
-        } else return 1; // error if user-specified font file can't be opened
-    } else return 1; // error if more than one CL argument is provided
+        } else return EXIT_FAILURE; // error if user-specified font file can't be opened
+    } else return EXIT_FAILURE; // error if more than one CL argument is provided
     process_lines();
     free_formatting();
-    return 0;
+    return EXIT_SUCCESS;
 }
