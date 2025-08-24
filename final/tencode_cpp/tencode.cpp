@@ -46,16 +46,12 @@ struct word {
     int g;
 };
 
-struct vocab {
-    struct word * wordv;
-    int N; // number of word structs in the vocabulary
-};
 
-struct vocab voc = {NULL, 0};
+std::vector <word> voc;
 
 int lookup(char * str) {
-    for (int i = 0; i < voc.N; i++) {
-        if (strcmp(str, voc.wordv[i].str) == 0) {
+    for (int i = 0; i < voc.size(); i++) {
+        if (strcmp(str, voc[i].str) == 0) {
             return i; // found at location i
         }
     }
@@ -64,9 +60,7 @@ int lookup(char * str) {
 
 void add_word_to_vocab(char * str) {
     struct word w = {str, strlen(str), 1};
-    voc.N++;
-    voc.wordv = (struct word *) realloc(voc.wordv, voc.N * sizeof(struct word));
-    voc.wordv[voc.N - 1] = w;
+    voc.push_back(w);
 }
 
 void build_vocab(FILE * fp) {
@@ -79,7 +73,7 @@ void build_vocab(FILE * fp) {
             int i = lookup(str);
             if (i > -1) { // if word was already seen
                 free(str); // do not need this string anymore (word struct already contains one with the identical content)...
-                voc.wordv[i].c++; // increase count
+                voc[i].c++; // increase count
             } else { // otherwise
                 add_word_to_vocab(str); // add word to the vocabulary
             }
@@ -88,34 +82,33 @@ void build_vocab(FILE * fp) {
 }
 
 void init_gains() {
-    for (int i = 0; i < voc.N; i++) voc.wordv[i].g = voc.wordv[i].c * voc.wordv[i].l - voc.wordv[i].l - 1 - voc.wordv[i].c;
+    for (int i = 0; i < voc.size(); i++) voc[i].g = voc[i].c * voc[i].l - voc[i].l - 1 - voc[i].c;
 }
 
 void sort_vocab() {
-    for (int i = 0; i < voc.N; i++) {
-        for (int j = i + 1; j < voc.N; j++) {
-            if (voc.wordv[i].g < voc.wordv[j].g || (voc.wordv[i].g == voc.wordv[j].g && strcmp(voc.wordv[i].str, voc.wordv[j].str) > 0)) {
-                struct word temp = voc.wordv[i];
-                voc.wordv[i] = voc.wordv[j];
-                voc.wordv[j] = temp;
+    for (int i = 0; i < voc.size(); i++) {
+        for (int j = i + 1; j < voc.size(); j++) {
+            if (voc[i].g < voc[j].g || (voc[i].g == voc[j].g && strcmp(voc[i].str, voc[j].str) > 0)) {
+                struct word temp = voc[i];
+                voc[i] = voc[j];
+                voc[j] = temp;
             }
         }
     }
 }
 
 void print_vocab() {
-    for (int i = 0; i < voc.N; i++) {
-        printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc.wordv[i].c, voc.wordv[i].l, voc.wordv[i].str);
+    for (int i = 0; i < voc.size(); i++) {
+        printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc[i].c, voc[i].l, voc[i].str);
     }
 }
 
 void delete_vocab() {
-    for (int i = 0; i < voc.N; i++) {
-        free(voc.wordv[i].str);
-        voc.wordv[i].str = NULL;
+    for (int i = 0; i < voc.size(); i++) {
+        free(voc[i].str);
+        voc[i].str = NULL;
     }
-    free(voc.wordv);
-    voc.wordv = NULL;
+    voc.clear(); // optional; vector will clean up on exit anyway
 }
 
 
@@ -125,7 +118,7 @@ char * code[128];
 
 void init_code() {
     for (int i = 0; i < 128; i++) {
-        code[i] = i < voc.N && voc.wordv[i].g > 0 ? voc.wordv[i].str : NULL;
+        code[i] = i < voc.size() && voc[i].g > 0 ? voc[i].str : NULL;
     }
 }
 
