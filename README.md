@@ -56,13 +56,13 @@ prints an integer using recursion.
 
 
 ## [TabOps](midterm) (midterm 2024)
-
+parse a text into items and reformat or compute values using placeholders and simple arithmetic expressions
 - [tabops](midterm/tabops/tabops.c)
 - [tabops2](midterm/tabops2/tabops2.c)
 
 
 ## [Compression Encoding](final) (final 2024)
-
+encode and decode text files by replacing frequent words with single-byte codes
 - [tdecode](final/tdecode/tdecode.c)
 - [tencode in C (slow)](final/tencode/tencode.c)
 - [tencode in C++ (very slow)](final/tencode_cpp_butjustalittle/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
