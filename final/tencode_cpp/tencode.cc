@@ -60,7 +60,7 @@ void build_vocab(FILE * fp) {
     }
 }
 
-void init_gains() {
+void compute_gains() {
     for (int i = 0; i < voc.size(); i++) voc[i].g = voc[i].c * voc[i].l - voc[i].l - 1 - voc[i].c;
 }
 
@@ -69,7 +69,7 @@ void init_gains() {
 
 std::string code[128];
 
-void init_code() {
+void compute_code() {
     for (int i = 0; i < 128; i++) {
         code[i] = (i < voc.size() && voc[i].g > 0) ? voc[i].str : "";
     }
@@ -125,11 +125,11 @@ int main (int argc, char * argv[]) {
     rewind(fp);
     build_vocab(fp); // pass 1
 
-    init_gains(); // compute gains
+    compute_gains(); // compute gains
     std::sort(voc.begin(), voc.end(), [](const word& w1, const word& w2) {
         return (w1.g != w2.g) ? (w1.g > w2.g) : (w1.str < w2.str); // inline lambda, pass by reference (no copying)
     });
-    init_code(); // compute codes
+    compute_code(); // compute codes
 
     rewind(fp);
     encode_text(fp); // pass 2
