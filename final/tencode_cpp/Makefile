@@ -1,7 +1,7 @@
 PROGRAMS=tencode
 
 CFLAGS=-Wall -Werror -g $(COVERAGE_FLAGS)
-CXXFLAGS=-Wall -Werror -g $(COVERAGE_FLAGS)
+CXXFLAGS= -std=c++11 -Wall -Werror -g $(COVERAGE_FLAGS)
 
 COVERAGE_FLAGS=$(if $(WITH_COVERAGE),--coverage,)
 SHELL=/bin/bash

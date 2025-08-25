@@ -1,7 +1,7 @@
-#include <cstdio>    // FILE, fopen, fclose, getc, putc, fputs, printf, stdin, stdout
-#include <cstdlib>   // malloc, realloc, free
-#include <cstring>   // strlen
-#include <cctype>    // isalpha
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <string>    // std::string
 #include <vector>    // std::vector
 #include <map>       // std::map
@@ -50,7 +50,7 @@ void build_vocab(FILE * fp) {
             ungetc(c, fp);
             str = get_word(fp);
             if (voc_idx.find(str) == voc_idx.end()) { // if word has not been encountered before
-                struct word w = {str, str.size(), 1};
+                struct word w = {str, (int)str.size(), 1};
                 voc.push_back(w); // add word to the vocabulary
                 voc_idx[w.str] = voc.size() - 1;
             } else {  // if word was already seen
@@ -63,11 +63,6 @@ void build_vocab(FILE * fp) {
 void init_gains() {
     for (int i = 0; i < voc.size(); i++) voc[i].g = voc[i].c * voc[i].l - voc[i].l - 1 - voc[i].c;
 }
-
-bool word_compare(struct word w1, struct word w2) {
-    return w1.g > w2.g || (w1.g == w2.g && w1.str < w2.str);
-}
-
 
 
 /* code secction */
@@ -131,7 +126,9 @@ int main (int argc, char * argv[]) {
     build_vocab(fp); // pass 1
 
     init_gains(); // compute gains
-    std::sort(voc.begin(), voc.end(), word_compare);
+    std::sort(voc.begin(), voc.end(), [](const word& w1, const word& w2) {
+        return (w1.g != w2.g) ? (w1.g > w2.g) : (w1.str < w2.str); // inline lambda, pass by reference (no copying)
+    });
     init_code(); // compute codes
 
     rewind(fp);
