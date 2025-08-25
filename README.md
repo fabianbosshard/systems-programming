@@ -61,5 +61,14 @@ prints an integer using recursion.
 - [tabops2](midterm/tabops2/tabops2.c)
 
 
+## [compression encoding](final) (final 2024)
+
+- [tdecode](final/tdecode/tdecode.c)
+- [tencode in C (slow)](final/tencode/tencode.c)
+- [tencode in C++ (slow)](final/tencode_cpp_butjustalittle/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
+- [tencode in C++ (fast)](final/tencode_cpp/tencode.cc): also uses std::map and std::sort for better performance
+
+
+
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
 string hashtable that stores key-value pairs (both strings) with functions to add, retrieve, and remove entries.

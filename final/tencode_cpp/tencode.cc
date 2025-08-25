@@ -68,11 +68,6 @@ bool word_compare(struct word w1, struct word w2) {
     return w1.g > w2.g || (w1.g == w2.g && w1.str < w2.str);
 }
 
-void print_vocab() {
-    for (int i = 0; i < voc.size(); i++) {
-        printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc[i].c, voc[i].l, voc[i].str.c_str());
-    }
-}
 
 
 /* code secction */
