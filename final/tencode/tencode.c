@@ -100,7 +100,7 @@ void sort_vocab() {
     }
 }
 
-void print_vocab() {
+void print_vocab() { // for debugging purposes
     for (int i = 0; i < voc.N; i++) {
         printf("count: %3d\tlength: %3d\tword: \"%s\"\n", voc.wordv[i].c, voc.wordv[i].l, voc.wordv[i].str);
     }
@@ -176,21 +176,19 @@ void delete_code() {
 int main (int argc, char * argv[]) {
     char * input = get_input();
 
-    FILE * fp = tmpfile();
+    FILE * fp = tmpfile(); // unnamed temporary file (instead of creating one on disk)
     fputs(input, fp);
     free(input);
 
     rewind(fp);
-
-    build_vocab(fp);
+    build_vocab(fp); // pass 1
 
     rewind(fp);
-
     init_gains();
     sort_vocab();
     init_code();
-    encode_text(fp);
-    
+    encode_text(fp); // pass 2
+
     fclose(fp);
     delete_code();
     delete_vocab();
