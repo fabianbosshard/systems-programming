@@ -64,8 +64,8 @@ parse a text into items and reformat or compute values using placeholders and si
 encode and decode text files by replacing frequent words with single-byte codes
 - [tdecode](final/tdecode/tdecode.c)
 - [tencode in C (slow)](final/tencode/tencode.c)
-- [tencode in C++ (very slow)](final/tencode_cpp_butjustalittle/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
-- [tencode in C++ (fast)](final/tencode_cpp/tencode.cc): also uses std::map and std::sort for better performance
+- [tencode with a bit of C++ (very slow)](final/tencode_cpp_1/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
+- [tencode with C++ (fast)](final/tencode_cpp_2/tencode.cc): also uses std::map and std::sort for better performance
 
 
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
