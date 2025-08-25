@@ -50,7 +50,6 @@ Output:
 ```
 
 
-
 ## [Print Number Recursively](print_number_recursively/print_number_recursively.c)
 prints an integer using recursion.
 
@@ -67,7 +66,6 @@ encode and decode text files by replacing frequent words with single-byte codes
 - [tencode in C (slow)](final/tencode/tencode.c)
 - [tencode in C++ (very slow)](final/tencode_cpp_butjustalittle/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
 - [tencode in C++ (fast)](final/tencode_cpp/tencode.cc): also uses std::map and std::sort for better performance
-
 
 
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
