@@ -1,19 +1,19 @@
-# Preparation for Systems Programming Retake
+# Systems Programming
 
 
-## [Binary Expressions](02_binary_expressions/bexp.c)
+## [Binary Expressions](02_binary_expressions/bexp.c) (Exercise 2)
 Binary/bit manipulation utilities and expression evaluation.
 
 
-## [Snake Game](53_snake/snake.c)
+## [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
 
-## [Alpha Code](59_alpha/alpha.cc)
+## [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
 
 
-## [Big Letters](63_bigletters/bigletters.c)
+## [Big Letters](63_bigletters/bigletters.c) (Exercise 63)
 ASCII big-letter renderer that parses a font file and prints enlarged text given as stdin input using a fancy font from the specified font file.
 
 ### How to use:
