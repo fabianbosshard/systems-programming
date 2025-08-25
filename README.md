@@ -9,6 +9,10 @@ Binary/bit manipulation utilities and expression evaluation.
 simple game engine: board state, movement, growth, and collision handling.
 
 
+## [Alpha Code](59_alpha/alpha.cc)
+"alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
+
+
 ## [Big Letters](63_bigletters/bigletters.c)
 ASCII big-letter renderer that parses a font file and prints enlarged text given as stdin input using a fancy font from the specified font file.
 
