@@ -1,0 +1,7 @@
+# Classic names
+**/[Mm]akefile      linguist-vendored
+**/GNUmakefile      linguist-vendored
+
+# Common variants
+**/*.mk             linguist-vendored
+**/makefile.*       linguist-vendored
