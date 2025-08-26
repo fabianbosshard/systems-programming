@@ -4,6 +4,12 @@
 ## [Binary Expressions](02_binary_expressions/bexp.c) (Exercise 2)
 Binary/bit manipulation utilities and expression evaluation.
 
+## [Table of String Records](31_string_records/s_table.cc) (Exercise 31)
+manages a table of string records: `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
+
+
+## [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
+compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
 ## [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
