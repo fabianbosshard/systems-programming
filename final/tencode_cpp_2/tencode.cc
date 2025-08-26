@@ -111,6 +111,9 @@ void encode_text(FILE * fp) {
     }
 }
 
+bool compare(const word& w1, const word& w2) { // pass by reference (no copying)
+    return (w1.g != w2.g) ? (w1.g > w2.g) : (w1.str < w2.str);
+}
 
 
 /* main */
@@ -125,9 +128,7 @@ int main (int argc, char * argv[]) {
     build_vocab(fp); // pass 1
 
     compute_gains(); // compute gains
-    std::sort(voc.begin(), voc.end(), [](const word& w1, const word& w2) {
-        return (w1.g != w2.g) ? (w1.g > w2.g) : (w1.str < w2.str); // inline lambda, pass by reference (no copying)
-    });
+    std::sort(voc.begin(), voc.end(), compare);
     compute_code(); // compute codes
 
     rewind(fp);

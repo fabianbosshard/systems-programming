@@ -70,6 +70,8 @@ encode and decode text files by replacing frequent words with single-byte codes
 - [tencode in C (slow)](final/tencode/tencode.c)
 - [tencode with a bit of C++ (very slow)](final/tencode_cpp_1/tencode.cpp): minimal C++ version (essentially just uses std::vector and std::string classes instead of manual malloc, realloc and free for dynamic arrays / strings)
 - [tencode with C++ (fast)](final/tencode_cpp_2/tencode.cc): also uses std::map and std::sort for better performance
+- [tencode with more C++](final/tencode_cpp_3/tencode.cc): uses <fstream> (ifstream/ofstream), stream ops in.get/in.unget, writes with cout.put/cout.write, std::array<std::string,128>, std::vector, std::map, std::sort + lambda [](...) {}, pass-by-ref ifstream&, using namespace std
+- [tencode with even more C++](final/tencode_cpp_4/tencode.cc): uses <sstream> (std::stringstream) (no temp files/disk I/O) + generalized istream&, rewinds via buffer.clear() and buffer.seekg(0, ios::beg)
 
 
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
