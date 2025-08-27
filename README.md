@@ -83,3 +83,11 @@ encode and decode text files by replacing frequent words with single-byte codes
 
 ## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
 string hashtable that stores key-value pairs (both strings) with functions to add, retrieve, and remove entries.
+
+
+## [C++ Introduction](cpp_introduction)
+- [Dynamic Array in C](cpp_introduction/01_dynamic_array.c): dynamic array of integers using `malloc`, `realloc`, `free`, etc (shows how much work needs to be done in C to get a very basic data structure that can grow/shrink as needed).
+- [Dynamic Array in C++](cpp_introduction/02_vector_int.cpp): same purpose as above, but using C++ `std::vector<int>` class (much simpler and less error-prone). also uses `auto`, iterator-based `for` loop, range-based `for` loop, `std::cin`, `std::cout`, `std::endl`.
+- [using a C array in C++](cpp_introduction/03_C_array_float.cpp): shows how to apply C++ features on a raw C array ($\rightarrow$ we can pass the begin/end pointers of the C array to `std::sort`, where the end pointer is one-past-the-end and can be computed as `A + n` where `n` is the number of elements in the array).
+- [Graph (C++)](cpp_introduction/04_graph.cpp): reading a graph from a file, storing it as an adjacency list, and performing a BFS. shows how to use `vector <vector <unsigned> >`, `map` ($\rightarrow$ careful with `value = M[key]` (if `key` is not found, it creates a new entry in the map!), `pair` container), file/string-streams (`fstream`/`sstream`), (double-ended) queue (`deque`) and how to push/pop from it, reading lines from a stream into a string (`getline`), how to ignore empty lines, initialize a vector of a given size.
+
