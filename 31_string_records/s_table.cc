@@ -79,7 +79,7 @@ typedef int (*feature_extractor)(const char * begin, const char * end);
 size_t s_table_remove_records(struct s_table * t, feature_extractor selector_callback) {
     int num = 0;
     for (auto node = t->T.begin(); node != t->T.end();) {
-        if (selector_callback(&*((*node).begin()), &*((*node).begin() + (*node).length()))) {
+        if (selector_callback((*node).c_str(), (*node).c_str() + (*node).length())) { // same as selector_callback(&*((*node).begin()), &*((*node).begin() + (*node).length()))
             auto node_to_delete = node;
             node++;
             t->T.erase(node_to_delete);
