@@ -123,5 +123,3 @@ void s_table_print_sorted(struct s_table * t, FILE * f, feature_extractor featur
         putc('\n', f);
     }
 }
-
-
