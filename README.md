@@ -9,9 +9,10 @@ Binary/bit manipulation utilities and expression evaluation.
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
 - [s_table](31_string_records/s_table_cpp1/): uses a bit more C++
 
-## [Messaging System](34_messaging) (Exercise 34)
+## Messaging System (Exercise 34/35)
 simple publish/subscribe messaging system where a server records the itnerests of receivers and then delivers messages according to those interests
-- [single tag](34_messaging/messaging.c): doubly linked list in C
+- [single tag](34_messaging_single_tag/messaging.c): doubly linked list in C
+- [multiple tags](35_messaging_multi_tag/messaging.cc)
 
 ## [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
