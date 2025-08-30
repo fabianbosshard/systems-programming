@@ -1,9 +1,6 @@
 # Systems Programming
 
 
-## [Binary Expressions](02_binary_expressions/bexp.c) (Exercise 2)
-Binary/bit manipulation utilities and expression evaluation.
-
 ## [Table of String Records](31_string_records) (Exercise 31)
  manages a table of string records
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
@@ -13,6 +10,7 @@ Binary/bit manipulation utilities and expression evaluation.
 simple publish/subscribe messaging system where a server records the itnerests of receivers and then delivers messages according to those interests
 - [single tag (C)](34_35_messaging/34_messaging_single_tag/messaging.c): doubly linked list in C
 - [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag/messaging.cc): `std::set`, `std::map`, `std::string`, `new`, `delete`
+- [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag_withFSM/messaging.cc) with diffent function to parse tags (FSM based)
 
 ## [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
@@ -99,57 +97,7 @@ string hashtable that stores key-value pairs (both strings) with functions to ad
 - [using a C array in C++](cpp_introduction/03_C_array_float.cpp): shows how to apply C++ features on a raw C array ($\rightarrow$ we can pass the begin/end pointers of the C array to `std::sort`, where the end pointer is one-past-the-end and can be computed as `A + n` where `n` is the number of elements in the array).
 - [Graph (C++)](cpp_introduction/04_graph.cpp): reading a graph from a file, storing it as an adjacency list, and performing a BFS. shows how to use `vector <vector <unsigned> >`, `map` ($\rightarrow$ careful with `value = M[key]` (if `key` is not found, it creates a new entry in the map!), `pair` container), file/string-streams (`fstream`/`sstream`), (double-ended) queue (`deque`) and how to push/pop from it, reading lines from a stream into a string (`getline`), how to ignore empty lines, initialize a vector of a given size.
 
-
-### References
-
-a reference is **not** an object, it is an alias for an object (another name for the same object).
-in simple cases, the compiler might not even allocate any memory, and (conceptually) just replace every use of `ref` with `n`.
-in other cases, the compiler needs to store a reference, in which case the underlying implementation will probably consist of a pointer object.
-```cpp
-int n = 42;
-int & ref = n;
-```
-
-main use is to pass as parameter as well as return from a function (there is a swap-function in the standard library, we do not need to define it ourselves, it is just an example):
-```cpp
-/* C style */
-void swap(int * p, int * q) {
-  int tmp = *p;
-  *p = *q;
-  *q = tmp;
-}
-/* C++ style */
-void swap(int & a, int & b) {
-  int tmp = a;
-  a = b;
-  b = tmp;
-}
-```
-in C++ it is also possible to overload functions, so depending on the type passed passed, one or the other `swap` function will be invoked.
-ironically (but consistently), invoking with the `&` (address-of) operator, the C style function will be invoked.
-
-for big objects, it makes sense to *pass by reference*, because copying a big object would be inefficient. if we do not want the function to change the object, we can pass by `const` reference:
-```cpp
-/* inefficient */
-void print_vec(std::vector<int> V) {
-    for (auto itr = V.begin(); itr != V.end(); itr++) {
-        std::cout << *itr << std::endl;
-    }
-}
-```
-```cpp
-/* more efficient */
-void print_vec(const std::vector<int> & V) {
-    for (auto itr = V.begin(); itr != V.end(); itr++) {
-        std::cout << *itr << std::endl;
-    }
-}
-```
-
-the beautiful (and necessary) benefit of references is not so much in expressions that are function calls but in the use of user-defined operators:
-
-
-### Operator Overloading
+### [Notes on References](cpp_introduction/references.md)
 
 
 
