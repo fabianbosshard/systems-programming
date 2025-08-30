@@ -3,6 +3,8 @@
 
 ## [string stack](03_strstack/strstack.c) (Exercise 3)
 
+## [Path Manipulation](04_path/path.c) (Exercise 4)
+
 ## [Table of String Records](31_string_records) (Exercise 31)
  manages a table of string records
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
