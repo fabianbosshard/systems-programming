@@ -3,6 +3,9 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <cstdlib>
+#include <set>
+#include <vector>
 #include <map>
 
 
@@ -58,36 +61,41 @@ void process_input(std::istream & input_stream, std::map<std::string, Style> & s
     }
 }
 
-void fix_color(std::string & col_attr, std::map<std::string, std::string> & colors) {
-    if (col_attr[0] != '#') {
-        std::string col_value;
-        if (colors.find(col_attr) != colors.end()) {
-            col_value = colors[col_attr];
-        } else exit(EXIT_FAILURE);
-        col_attr = "#" + col_value;
-    }
-}
-void resolve_colors(std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
-    for (auto & s_pair : styles) {
-        auto & s = s_pair.second;
-        fix_color(s.fg, colors);
-        fix_color(s.bg, colors);
-    }
+bool compare(Style a, Style b) {
+    return a.nam < b.nam;
 }
 
-void output_styles(std::map<std::string, Style> & styles) {
-    for (auto & s_pair : styles) {
-        auto & s = s_pair.second;
+void output_styles(std::vector<Style> & styles, std::map<std::string, std::string> & colors) {
+    for (auto & s : styles) {
         std::cout << s.nam << ": ";
-        struct color co; 
 
         std::cout << "fg=";
-        string_to_color(&co, &((s.fg.c_str())[1]));
-        std::cout << co.red << "," << co.green << "," << co.blue << " ";
+        struct color * fg_p = (struct color *) malloc(sizeof(struct color));
+        if (s.fg[0] == '#') {
+            string_to_color(fg_p, &((s.fg.c_str())[1]));
+        } else {
+            std::string foreground;
+            if (colors.find(s.fg) != colors.end()) {
+                foreground = colors[s.fg];
+            } else exit(EXIT_FAILURE);
+            string_to_color(fg_p, &((foreground.c_str())[0]));
+        }
+        std::cout << fg_p->red << "," << fg_p->green << "," << fg_p->blue << " ";
+        free(fg_p);
 
         std::cout << "bg=";
-        string_to_color(&co, &((s.bg.c_str())[1]));
-        std::cout << co.red << "," << co.green << "," << co.blue << " ";
+        struct color * bg_p = (struct color *) malloc(sizeof(struct color));
+        if (s.bg[0] == '#') {
+            string_to_color(bg_p, &((s.bg.c_str())[1]));
+        } else {
+            std::string background;
+            if (colors.find(s.bg) != colors.end()) {
+                background = colors[s.bg];
+            } else exit(EXIT_FAILURE);
+            string_to_color(bg_p, &((background.c_str())[0]));
+        }
+        std::cout << bg_p->red << "," << bg_p->green << "," << bg_p->blue << " ";
+        free(bg_p);
 
         std::cout << "ft=";
         std::cout << s.ft << std::endl;
@@ -108,7 +116,12 @@ int main(int argc, char * argv[]) {
         input_stream ? process_input(input_stream, styles, colors) : exit(EXIT_FAILURE);
     }
 
-    resolve_colors(styles, colors);
+    std::vector<Style> styles_v;
+    for (auto & s_pair : styles) {
+        styles_v.push_back(s_pair.second);
+    }
 
-    output_styles(styles);
+    std::sort(styles_v.begin(), styles_v.end(), compare);
+
+    output_styles(styles_v, colors);
 }
