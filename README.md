@@ -29,7 +29,13 @@ manages a sequence of lines with add/remove/match operations
 - string parsing/tokenization via `isspace((unsigned char)c)`: `const char *` $\rightarrow$ `std::set<std::string>` (words in line)
 - substring search with `.find()` + `std::string::npos`
 - range-based `for` loops with `auto &`  
-- pass-by-reference (`const auto &`) to avoid copies  
+- pass-by-reference (`const auto &`) to avoid copies 
+
+## [Text Styles](58_styles/styles_v2.cc) (Exercise 58)
+parses style specs and resolves color names to RGB
+- reads line-by-line with `while (std::getline(input_stream, line))`
+- tokenizes each line with `std::stringstream` + `while (line_input >> word)`
+- merges repeated `style` entries: `Style & style = styles[stylename]`
 
 ## [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
