@@ -22,6 +22,14 @@ compares two sequences of words lexicographically: uses `std::vector` and `std::
 ## [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
+## [sequence of lines data structure](56_lines/words.cc) (Exercise 56)
+manages a sequence of lines with add/remove/match operations  
+- `new`/`delete` for object lifetime (dynamic allocation)
+- `std::map<unsigned,std::string>` to map from ID $\rightarrow$ line, strictly monotonic `next_id` counter
+- string parsing/tokenization via `isspace((unsigned char)c)`: `const char *` $\rightarrow$ `std::set<std::string>` (words in line)
+- substring search with `.find()` + `std::string::npos`
+- range-based `for` loops with `auto &`  
+- pass-by-reference (`const auto &`) to avoid copies  
 
 ## [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
