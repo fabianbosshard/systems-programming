@@ -17,8 +17,8 @@ class Style {
     std::string ft;
     std::string fg;
     std::string bg;
-    Style(std::string name) {
-        nam = name;
+    Style() {
+        nam = "";
         ft = "fixed";
         fg = "#000000";
         bg = "#FFFFFF";
@@ -27,7 +27,7 @@ class Style {
 
 
 
-void process_input(std::istream & in, std::vector<Style> & styles, std::map<std::string, std::string> & colors) {
+void process_input(std::istream & in, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
     std::string line;
     while(std::getline(in, line)) {
         if (line.length() == 0) continue;
@@ -36,27 +36,33 @@ void process_input(std::istream & in, std::vector<Style> & styles, std::map<std:
         in >> word;
         if (word == "color") {
             std::string colorname, colorcode;
-            in >> colorname >> colorcode;
-            colors[colorname] = colorcode;
+            if (!(in >> colorname)) exit(EXIT_FAILURE);
+            if (in >> colorcode) {
+                colors[colorname] = colorcode;
+            } else exit(EXIT_FAILURE);
         } else if (word == "style") {
             std::string stylename;
-            in >> stylename;
-            Style style(stylename);
+            if (!(in >> stylename)) exit(EXIT_FAILURE);
+            Style style;
+            style.nam = stylename;
             while (in >> word) {
                 if (word == "foreground") {
-                    in >> word;
-                    style.fg = word;
+                    if(in >> word) {
+                        style.fg = word;
+                    } else exit(EXIT_FAILURE);
                 } else if (word == "background") {
-                    in >> word;
-                    style.bg = word;
+                    if(in >> word) {
+                        style.bg = word;
+                    } else exit(EXIT_FAILURE);
                 } else if (word == "font") {
-                    in >> word;
-                    style.ft = word;
+                    if(in >> word) {
+                        style.ft = word;
+                    } else exit(EXIT_FAILURE);
                 } else {
                     exit(EXIT_FAILURE);
                 }
             }
-            styles.push_back(style);
+            styles[stylename] = style;
         } else {
             exit(EXIT_FAILURE);
         }
@@ -72,6 +78,7 @@ bool compare(Style a, Style b) {
 
 void output_styles(std::vector<Style> & styles, std::map<std::string, std::string> & colors) {
     for (auto & s : styles) {
+        // auto s = s_pair.second;
         std::cout << s.nam << ": ";
 
         std::cout << "fg=";
@@ -110,7 +117,7 @@ void output_styles(std::vector<Style> & styles, std::map<std::string, std::strin
 
 int main(int argc, char * argv[]) {
 
-    std::vector<Style> styles;
+    std::map<std::string, Style> styles;
     std::map<std::string, std::string> colors;
 
     if (argc == 1) {
@@ -121,9 +128,14 @@ int main(int argc, char * argv[]) {
         in ? process_input(in, styles, colors) : exit(EXIT_FAILURE);
     }
 
-    std::sort(styles.begin(), styles.end(), compare);
+    std::vector<Style> styles_v;
+    for (auto & s_pair : styles) {
+        styles_v.push_back(s_pair.second);
+    }
+
+    std::sort(styles_v.begin(), styles_v.end(), compare);
 
 
-    output_styles(styles, colors);
+    output_styles(styles_v, colors);
 
 }
