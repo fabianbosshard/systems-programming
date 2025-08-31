@@ -26,7 +26,7 @@ class Style {
 
 void process_input(std::istream & input_stream, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
     std::string line;
-    while(std::getline(input_stream, line)) {
+    while (std::getline(input_stream, line)) {
         auto input_stream = std::stringstream(line);
         std::string word;
         if (!(input_stream >> word)) continue; // skip empty lines
@@ -36,6 +36,7 @@ void process_input(std::istream & input_stream, std::map<std::string, Style> & s
             if (input_stream >> colorcode) {
                 colors[colorname] = colorcode;
             } else exit(EXIT_FAILURE);
+            if (input_stream >> word) exit(EXIT_FAILURE); // reject trailing junk on color lines
         } else if (word == "style") {
             std::string stylename;
             if (!(input_stream >> stylename)) exit(EXIT_FAILURE);
@@ -54,14 +55,9 @@ void process_input(std::istream & input_stream, std::map<std::string, Style> & s
                     if (input_stream >> word) {
                         style.ft = word;
                     } else exit(EXIT_FAILURE);
-                } else {
-                    exit(EXIT_FAILURE);
-                }
+                } else exit(EXIT_FAILURE);
             }
-        } else {
-            exit(EXIT_FAILURE);
-        }
-
+        } else exit(EXIT_FAILURE);
     }
 }
 
