@@ -24,32 +24,32 @@ class Style {
 void process_input(std::istream & input_stream, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
     std::string line;
     while (std::getline(input_stream, line)) {
-        auto input_stream = std::stringstream(line);
+        auto line_input = std::stringstream(line);
         std::string word;
-        if (!(input_stream >> word)) continue; // skip empty lines
+        if (!(line_input >> word)) continue; // skip empty lines
         if (word == "color") {
             std::string colorname, colorcode;
-            if (!(input_stream >> colorname)) exit(EXIT_FAILURE);
-            if (input_stream >> colorcode) {
+            if (!(line_input >> colorname)) exit(EXIT_FAILURE);
+            if (line_input >> colorcode) {
                 colors[colorname] = colorcode;
             } else exit(EXIT_FAILURE);
-            if (input_stream >> word) exit(EXIT_FAILURE); // reject trailing junk on color lines
+            if (line_input >> word) exit(EXIT_FAILURE); // reject trailing junk on color lines
         } else if (word == "style") {
             std::string stylename;
-            if (!(input_stream >> stylename)) exit(EXIT_FAILURE);
+            if (!(line_input >> stylename)) exit(EXIT_FAILURE);
             Style & style = styles[stylename]; // start from existing entry (or create it if it does not exist yet): then overwrite fg/bg/ft if the attribute appears
             style.nam = stylename;
-            while (input_stream >> word) {
+            while (line_input >> word) {
                 if (word == "foreground") {
-                    if (input_stream >> word) {
+                    if (line_input >> word) {
                         style.fg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "background") {
-                    if (input_stream >> word) {
+                    if (line_input >> word) {
                         style.bg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "font") {
-                    if (input_stream >> word) {
+                    if (line_input >> word) {
                         style.ft = word;
                     } else exit(EXIT_FAILURE);
                 } else exit(EXIT_FAILURE);
