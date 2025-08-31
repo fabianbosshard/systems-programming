@@ -54,7 +54,7 @@ bool match(std::string X, std::set<std::string> W) {
 
 
 const char * get_word_start(const char * p) {
-    while (!isalpha(*p)) {
+    while (isspace(*p) || *p == '\0') {
         if (*p == '\0') {
             return NULL; // no more words in p
         }
@@ -64,7 +64,7 @@ const char * get_word_start(const char * p) {
 }
 
 const char * get_word_end(const char * q) {
-    while (isalpha(*q)) {
+    while (!isspace(*q) && *q != '\0') {
         q++;
     }
     return q;
