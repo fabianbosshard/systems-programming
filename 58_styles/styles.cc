@@ -8,12 +8,10 @@
 
 class Style {
     public:
-    std::string nam;
     std::string ft;
     std::string fg;
     std::string bg;
     Style() {
-        nam = "";
         ft = "fixed";
         fg = "#000000";
         bg = "#FFFFFF";
@@ -38,7 +36,6 @@ void process_input(std::istream & input_stream, std::map<std::string, Style> & s
             std::string stylename;
             if (!(line_input >> stylename)) exit(EXIT_FAILURE);
             Style & style = styles[stylename]; // start from existing entry (or create it if it does not exist yet): then overwrite fg/bg/ft if the attribute appears
-            style.nam = stylename;
             while (line_input >> word) {
                 if (word == "foreground") {
                     if (line_input >> word) {
@@ -68,29 +65,27 @@ void fix_color(std::string & col_attr, std::map<std::string, std::string> & colo
     }
 }
 void resolve_colors(std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
-    for (auto & s_pair : styles) {
-        auto & s = s_pair.second;
-        fix_color(s.fg, colors);
-        fix_color(s.bg, colors);
+    for (auto & s : styles) {
+        fix_color(s.second.fg, colors);
+        fix_color(s.second.bg, colors);
     }
 }
 
 void output_styles(std::map<std::string, Style> & styles) {
-    for (auto & s_pair : styles) {
-        auto & s = s_pair.second;
-        std::cout << s.nam << ": ";
+    for (auto & s : styles) {
+        std::cout << s.first << ": ";
         struct color co; 
 
         std::cout << "fg=";
-        string_to_color(&co, &((s.fg.c_str())[1]));
+        string_to_color(&co, &((s.second.fg.c_str())[1]));
         std::cout << co.red << "," << co.green << "," << co.blue << " ";
 
         std::cout << "bg=";
-        string_to_color(&co, &((s.bg.c_str())[1]));
+        string_to_color(&co, &((s.second.bg.c_str())[1]));
         std::cout << co.red << "," << co.green << "," << co.blue << " ";
 
         std::cout << "ft=";
-        std::cout << s.ft << std::endl;
+        std::cout << s.second.ft << std::endl;
     }
 }
 
