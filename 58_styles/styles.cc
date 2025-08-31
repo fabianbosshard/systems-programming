@@ -9,8 +9,6 @@
 #include <map>
 
 
-
-
 class Style {
     public:
     std::string nam;
@@ -26,14 +24,12 @@ class Style {
 };
 
 
-
 void process_input(std::istream & in, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
     std::string line;
     while(std::getline(in, line)) {
-        if (line.length() == 0) continue;
         auto in = std::stringstream(line);
         std::string word;
-        in >> word;
+        if (!(in >> word)) continue; // skip empty lines
         if (word == "color") {
             std::string colorname, colorcode;
             if (!(in >> colorname)) exit(EXIT_FAILURE);
@@ -47,15 +43,15 @@ void process_input(std::istream & in, std::map<std::string, Style> & styles, std
             style.nam = stylename;
             while (in >> word) {
                 if (word == "foreground") {
-                    if(in >> word) {
+                    if (in >> word) {
                         style.fg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "background") {
-                    if(in >> word) {
+                    if (in >> word) {
                         style.bg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "font") {
-                    if(in >> word) {
+                    if (in >> word) {
                         style.ft = word;
                     } else exit(EXIT_FAILURE);
                 } else {
@@ -70,15 +66,12 @@ void process_input(std::istream & in, std::map<std::string, Style> & styles, std
     }
 }
 
-
 bool compare(Style a, Style b) {
     return a.nam < b.nam;
 }
 
-
 void output_styles(std::vector<Style> & styles, std::map<std::string, std::string> & colors) {
     for (auto & s : styles) {
-        // auto s = s_pair.second;
         std::cout << s.nam << ": ";
 
         std::cout << "fg=";
