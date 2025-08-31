@@ -24,41 +24,40 @@ class Style {
 };
 
 
-void process_input(std::istream & in, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
+void process_input(std::istream & input_stream, std::map<std::string, Style> & styles, std::map<std::string, std::string> & colors) {
     std::string line;
-    while(std::getline(in, line)) {
-        auto in = std::stringstream(line);
+    while(std::getline(input_stream, line)) {
+        auto input_stream = std::stringstream(line);
         std::string word;
-        if (!(in >> word)) continue; // skip empty lines
+        if (!(input_stream >> word)) continue; // skip empty lines
         if (word == "color") {
             std::string colorname, colorcode;
-            if (!(in >> colorname)) exit(EXIT_FAILURE);
-            if (in >> colorcode) {
+            if (!(input_stream >> colorname)) exit(EXIT_FAILURE);
+            if (input_stream >> colorcode) {
                 colors[colorname] = colorcode;
             } else exit(EXIT_FAILURE);
         } else if (word == "style") {
             std::string stylename;
-            if (!(in >> stylename)) exit(EXIT_FAILURE);
-            Style style;
+            if (!(input_stream >> stylename)) exit(EXIT_FAILURE);
+            Style & style = styles[stylename]; // start from existing entry (or create it if it does not exist yet): then overwrite fg/bg/ft if the attribute appears
             style.nam = stylename;
-            while (in >> word) {
+            while (input_stream >> word) {
                 if (word == "foreground") {
-                    if (in >> word) {
+                    if (input_stream >> word) {
                         style.fg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "background") {
-                    if (in >> word) {
+                    if (input_stream >> word) {
                         style.bg = word;
                     } else exit(EXIT_FAILURE);
                 } else if (word == "font") {
-                    if (in >> word) {
+                    if (input_stream >> word) {
                         style.ft = word;
                     } else exit(EXIT_FAILURE);
                 } else {
                     exit(EXIT_FAILURE);
                 }
             }
-            styles[stylename] = style;
         } else {
             exit(EXIT_FAILURE);
         }
@@ -117,8 +116,8 @@ int main(int argc, char * argv[]) {
         process_input(std::cin, styles, colors);
     }
     for (int i = 1; i < argc; i++) {
-        std::ifstream in(argv[i]);
-        in ? process_input(in, styles, colors) : exit(EXIT_FAILURE);
+        std::ifstream input_stream(argv[i]);
+        input_stream ? process_input(input_stream, styles, colors) : exit(EXIT_FAILURE);
     }
 
     std::vector<Style> styles_v;
@@ -128,7 +127,5 @@ int main(int argc, char * argv[]) {
 
     std::sort(styles_v.begin(), styles_v.end(), compare);
 
-
     output_styles(styles_v, colors);
-
 }
