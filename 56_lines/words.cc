@@ -86,7 +86,7 @@ std::set<std::string> parse_words(const char * words) {
 int match (struct lines * l, const char * output[], int max_output, const char * words) {
     unsigned i = 0;
     std::set<std::string> W = parse_words(words);
-    for (auto p : l->M) {
+    for (auto & p : l->M) { // IMPORTANT: iterate by reference (i.e. using the reference declarator `&`)!!! otherwise `auto p` copies each map element and `p.second.c_str()` points into that temporary copy, which is destroyed at the end of that loop iteration. That leaves `output[i]` dangling → garbage
         if (match(p.second, W)) {
             output[i] = p.second.c_str();
             i++;
