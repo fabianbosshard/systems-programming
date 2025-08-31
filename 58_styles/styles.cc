@@ -5,7 +5,6 @@
 #include <sstream>
 #include <map>
 
-
 class Styles {
     private:
     class Style {
@@ -21,7 +20,6 @@ class Styles {
     };
     std::map<std::string, Style> styles;
     std::map<std::string, std::string> colors;
-
     public:
     void process_input(std::istream & input_stream) {
         std::string line;
@@ -88,7 +86,6 @@ class Styles {
         }
     }
 };
-
 
 int main(int argc, char * argv[]) {
     Styles styles;
