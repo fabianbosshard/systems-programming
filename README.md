@@ -7,6 +7,9 @@
 
 ### [Path Manipulation](04_path/path.c) (Exercise 4)
 
+### [Keywords](29_keywords/keywords.cc) (Exercise 29)
+- initializer list (OOP in C++): some members cannot be assigned to after the object is created (references, const members, members of types with no assignment operator). initializer lists solve that by constructing or binding those members right when the object is being built.
+
 ### [Table of String Records](31_string_records) (Exercise 31)
  manages a table of string records
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
@@ -39,7 +42,7 @@ computes RGB values from hex color code string
 ### [Text Styles](58_styles/styles_v2.cc) (Exercise 58)
 parses style specs and resolves color names to RGB
 - reads line-by-line with `while (std::getline(input_stream, line))`
-- tokenizes each line with `std::stringstream` + `while (line_input >> word)`
+- tokenizes each line into words with `std::stringstream` + `while (line_input >> word)`
 - merges repeated `style` entries: `Style & style = styles[stylename]`
 
 ### [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
@@ -84,7 +87,10 @@ encode and decode text files by replacing frequent words with single-byte codes
 - [tencode with a bit of C++ (very slow)](final/tencode_cpp_1/tencode.cpp): minimal C++ version (essentially just uses `std::vector` and `std::string` classes instead of manual `malloc`, `realloc` and `free` for dynamic arrays / strings)
 - [tencode with C++ (fast)](final/tencode_cpp_2/tencode.cc): also uses `std::map` and `std::sort` for better performance
 - [tencode with more C++](final/tencode_cpp_3/tencode.cc): uses `<fstream>` (`ifstream`/`ofstream`), stream ops `in.get`/`in.unget`, writes with `cout.put`/`cout.write`, `std::array<std::string,128>`, `std::vector`, `std::map`, `std::sort` + $\lambda$-function, pass-by-ref `ifstream&`, `using namespace std`
-- [tencode with even more C++](final/tencode_cpp_4/tencode.cc): uses `<sstream>` (`std::stringstream`) (no temp files/disk I/O) + generalized `istream&`, rewinds via `buffer.clear()` and `buffer.seekg(0, ios::beg)`
+- [tencode with even more C++](final/tencode_cpp_4/tencode.cc):
+  - `<sstream>` (`std::stringstream`) (no temp files/disk I/O) + generalized `istream&`
+  - rewinds via `buffer.clear()` and `buffer.seekg(0, ios::beg)`
+  - custom `get_word()` from a stream based on function (here: `isalpha`)
 
 
 
