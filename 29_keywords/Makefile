@@ -2,10 +2,12 @@ CXXFLAGS = -Wall -std=c++11
 CFLAGS = -Wall
 
 .PHONY: all
-all: keywords
+all: keywords_v2
+	./test_keywords.sh
+
 
 .PHONY: test
-test: test_keywords.sh keywords 
+test: test_keywords.sh keywords_v2
 	./test_keywords.sh
 
 .PHONY: submit

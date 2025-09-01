@@ -7,7 +7,7 @@
 
 ### [Path Manipulation](04_path/path.c) (Exercise 4)
 
-### [Keywords](29_keywords/keywords.cc) (Exercise 29)
+### [Keywords](29_keywords/keywords_v2.cc) (Exercise 29)
 - initializer list (OOP in C++): some members cannot be assigned to after the object is created (references, const members, members of types with no assignment operator). initializer lists solve that by constructing or binding those members right when the object is being built.
 
 ### [Table of String Records](31_string_records) (Exercise 31)

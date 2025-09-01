@@ -1,5 +1,6 @@
 #!/bin/sh
-#
+GREEN='\033[1;32m'; RED='\033[1;31m'; RESET='\033[0m'
+
 if test -z "$1"
 then
     PROGRAM=./keywords
@@ -10,17 +11,17 @@ fi
 test -x "$PROGRAM" || { echo "Could not find executable $PROGRAM" && exit 1; }
 
 run_test_io() {
-    echo Running test "$@ < test.in"
+    # echo Running test "$@ < test.in"
     "$@" < test.in > test.out || { echo "TEST FAILED.  Program returns FAILURE.  Check test.in and test.out." && exit 1; }
     diff -q test.out test.expected || { echo "TEST FAILED.  Bad output.  Check test.in, test.out, and test.expected." && exit 1; }
-    echo "TEST PASSED."
+    printf "${GREEN}PASS${RESET}\n"
 }
 
 run_test() {
-    echo Running test "$@"
+    # echo Running test "$@"
     "$@" > test.out || { echo "TEST FAILED.  $PROGRAM returns FAILURE.  Check test.in and test.out." && exit 1; }
     diff -q test.out test.expected || { echo "TEST FAILED.  Bad output from $PROGRAM.  Check test.in, test.out, and test.expected." && exit 1; }
-    echo "TEST PASSED."
+    printf "${GREEN}PASS${RESET}\n"
 }
 
 cat > test.in <<EOF
@@ -1285,6 +1286,6 @@ run_test "$PROGRAM" low=65 high=65 test.in
 run_test "$PROGRAM" low=67 high=67 test.in
 run_test "$PROGRAM" low=34 high=34 test.in
 run_test "$PROGRAM" low=32 high=32 test.in
-echo ALL TESTS PASSED.
+printf "ALL TESTS PASSED.\n"
 
 rm -f test.in test.out test.expected
