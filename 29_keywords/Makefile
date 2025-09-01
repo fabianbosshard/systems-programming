@@ -3,12 +3,14 @@ CFLAGS = -Wall
 
 .PHONY: all
 all: keywords_v2
-	./test_keywords.sh
+	./test_keywords.sh keywords_v2
 
+keywords_v2: keywords_v2.cc
+	$(CXX) $(CXXFLAGS) $< -o $@
 
 .PHONY: test
-test: test_keywords.sh keywords_v2
-	./test_keywords.sh
+test: keywords_v2
+	./test_keywords.sh keywords_v2
 
 .PHONY: submit
 submit: submission.tar.gz

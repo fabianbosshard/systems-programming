@@ -1,28 +1,47 @@
 #!/bin/sh
 GREEN='\033[1;32m'; RED='\033[1;31m'; RESET='\033[0m'
 
-if test -z "$1"
-then
-    PROGRAM=./keywords
-else
-    PROGRAM="$1"
-fi
-
+PROGRAM="$1"
+case "$PROGRAM" in
+  /*|./*) ;;                 # absolute path or already './program'
+  *) PROGRAM="./$PROGRAM" ;; # prepend ./ if relative name
+esac
 test -x "$PROGRAM" || { echo "Could not find executable $PROGRAM" && exit 1; }
 
+COL=70
+TOTAL=0
+PASSED=0
+
+dotfill() { n=$1; [ "$n" -gt 0 ] && printf "%${n}s" | tr ' ' '.'; }
+banner() {
+  label="$1"
+  prefix="Running $label"
+  printf "%s " "$prefix"
+  n=$(( COL - ${#label} - 9 ))   # 9 = len("Running ") + 1 space
+  [ "$n" -lt 1 ] && n=1
+  dotfill "$n"
+  printf " "
+}
+
+ok()   { printf "${GREEN}PASS${RESET}\n"; PASSED=$((PASSED+1)); TOTAL=$((TOTAL+1)); }
+fail() { printf "${RED}FAIL${RESET}\n"; TOTAL=$((TOTAL+1)); exit 1; }
+
 run_test_io() {
-    # echo Running test "$@ < test.in"
-    "$@" < test.in > test.out || { echo "TEST FAILED.  Program returns FAILURE.  Check test.in and test.out." && exit 1; }
-    diff -q test.out test.expected || { echo "TEST FAILED.  Bad output.  Check test.in, test.out, and test.expected." && exit 1; }
-    printf "${GREEN}PASS${RESET}\n"
+    label="$* < test.in"
+    banner "$label"
+    "$@" < test.in > test.out || { echo; echo "Program returns FAILURE. Check test.in/test.out."; fail; }
+    diff -q test.out test.expected > /dev/null || { echo; echo "Bad output. Check test.in/test.out/test.expected."; fail; }
+    ok
 }
 
 run_test() {
-    # echo Running test "$@"
-    "$@" > test.out || { echo "TEST FAILED.  $PROGRAM returns FAILURE.  Check test.in and test.out." && exit 1; }
-    diff -q test.out test.expected || { echo "TEST FAILED.  Bad output from $PROGRAM.  Check test.in, test.out, and test.expected." && exit 1; }
-    printf "${GREEN}PASS${RESET}\n"
+    label="$*"
+    banner "$label"
+    "$@" > test.out || { echo; echo "$PROGRAM returns FAILURE. Check test.in/test.out."; fail; }
+    diff -q test.out test.expected > /dev/null || { echo; echo "Bad output from $PROGRAM. Check test.in/test.out/test.expected."; fail; }
+    ok
 }
+
 
 cat > test.in <<EOF
 * Introduction
@@ -1286,6 +1305,14 @@ run_test "$PROGRAM" low=65 high=65 test.in
 run_test "$PROGRAM" low=67 high=67 test.in
 run_test "$PROGRAM" low=34 high=34 test.in
 run_test "$PROGRAM" low=32 high=32 test.in
-printf "ALL TESTS PASSED.\n"
+printf "count_total=%d count_pass=%d\n" "$TOTAL" "$PASSED"
+PCT=$(( 100 * PASSED / (TOTAL>0?TOTAL:1) ))
+if [ "$PASSED" -eq "$TOTAL" ]; then
+  printf "Summary: ${GREEN}PASS${RESET}  %d%% (%d/%d)\n" "$PCT" "$PASSED" "$TOTAL"
+else
+  printf "Summary: ${RED}FAIL${RESET}  %d%% (%d/%d)\n" "$PCT" "$PASSED" "$TOTAL"
+fi
+
+rm -f test.in test.out test.expected
 
 rm -f test.in test.out test.expected

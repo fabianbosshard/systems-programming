@@ -35,6 +35,7 @@ bool fancy = false;
 bool reverse = false;
 
 std::map<std::string, unsigned> count;
+std::vector<struct word> keywords;
 
 void process_input(std::istream & input) {
     std::string w;
@@ -43,8 +44,6 @@ void process_input(std::istream & input) {
         count.find(w) == count.end() ? count[w] = 1 : count[w]++;
     }
 }
-
-std::vector<struct word> keywords;
 
 void calculate_frequencies() {
     for (auto & p : count) {
@@ -76,6 +75,9 @@ void output_frequencies(std::ostream & output) {
 }
 
 void run(std::istream & input, std::ostream & output) {
+    count.clear();
+    keywords.clear();
+    num_words = 0;
     process_input(input);
     calculate_frequencies();
     sort_keywords();
