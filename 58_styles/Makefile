@@ -1,4 +1,4 @@
-PROGRAMS = styles
+PROGRAMS = styles_v2
 
 CFLAGS=-Wall -g $(COVERAGE_FLAGS)
 CXXFLAGS=-Wall -g $(COVERAGE_FLAGS)
@@ -15,7 +15,7 @@ COLORS_DIR := ../57_colors
 OBJECTS += $(COLORS_DIR)/colors.o
 $(COLORS_DIR)/colors.o: $(COLORS_DIR)/colors.c $(COLORS_DIR)/colors.h
 	$(CC) -c $(CFLAGS) $< -o $@
-styles: styles.cc $(OBJECTS)
+styles_v2: styles_v2.cc $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
