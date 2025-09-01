@@ -1,4 +1,4 @@
-OBJECTS=iterator.o
+OBJECTS=iterator_v2.o
 
 CFLAGS=-Wall -g $(COVERAGE_FLAGS)
 CXXFLAGS=-Wall -g $(COVERAGE_FLAGS)
