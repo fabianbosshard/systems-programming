@@ -1,28 +1,30 @@
 # Systems Programming
 
 
-## [string stack](03_strstack/strstack.c) (Exercise 3)
+## Exam Exercises
 
-## [Path Manipulation](04_path/path.c) (Exercise 4)
+### [string stack](03_strstack/strstack.c) (Exercise 3)
 
-## [Table of String Records](31_string_records) (Exercise 31)
+### [Path Manipulation](04_path/path.c) (Exercise 4)
+
+### [Table of String Records](31_string_records) (Exercise 31)
  manages a table of string records
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
 - [s_table](31_string_records/s_table_cpp1/): uses a bit more C++
 
-## [Messaging System](34_35_messaging) (Exercise 34/35)
+### [Messaging System](34_35_messaging) (Exercise 34/35)
 simple publish/subscribe messaging system where a server records the itnerests of receivers and then delivers messages according to those interests
 - [single tag (C)](34_35_messaging/34_messaging_single_tag/messaging.c): doubly linked list in C
 - [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag/messaging.cc): `std::set`, `std::map`, `std::string`, `new`, `delete`
 - [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag_withFSM/messaging.cc) with diffent function to parse tags (FSM based)
 
-## [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
+### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
-## [Snake Game](53_snake/snake.c) (Exercise 53)
+### [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
-## [sequence of lines data structure](56_lines/words.cc) (Exercise 56)
+### [sequence of lines data structure](56_lines/words.cc) (Exercise 56)
 manages a sequence of lines with add/remove/match operations  
 - `new`/`delete` for object lifetime (dynamic allocation)
 - `std::map<unsigned,std::string>` to map from ID $\rightarrow$ line, strictly monotonic `next_id` counter
@@ -31,23 +33,23 @@ manages a sequence of lines with add/remove/match operations
 - range-based `for` loops with `auto &`  
 - pass-by-reference (`const auto &`) to avoid copies
 
-## [String to Color](57_colors/colors.c) (Exercise 57)
+### [String to Color](57_colors/colors.c) (Exercise 57)
 computes RGB values from hex color code string
 
-## [Text Styles](58_styles/styles_v2.cc) (Exercise 58)
+### [Text Styles](58_styles/styles_v2.cc) (Exercise 58)
 parses style specs and resolves color names to RGB
 - reads line-by-line with `while (std::getline(input_stream, line))`
 - tokenizes each line with `std::stringstream` + `while (line_input >> word)`
 - merges repeated `style` entries: `Style & style = styles[stylename]`
 
-## [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
+### [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
 
 
-## [Big Letters](63_bigletters/bigletters.c) (Exercise 63)
+### [Big Letters](63_bigletters/bigletters.c) (Exercise 63)
 ASCII big-letter renderer that parses a font file and prints enlarged text given as stdin input using a fancy font from the specified font file.
 
-### How to use:
+#### How to use:
 ```bash
 ./bigletters latexfont.txt <<< "LATEX"
 ```
@@ -61,17 +63,37 @@ Output:
   *#.        .*.  .X*.      XX        XX      :.     ::XX    
   *#.     ::                XX        X#   *        :. .#*   
   *#.    .X.                XX        X#::*X       ::   .#*  
-.:X#*:::*XX               ::##::      XX   :   . :*#:   .##*:
+.:X#*:::*XX               ::###::      XX   :   . :*#:   .###*:
                                       XX      .:
                                       X#      *.
                                     .*XX:::::XX 
 ```
 
 
-## [Show Bit Pattern](show_bit_pattern/show_bits.c)
+### [Table Operations](midterm) (midterm 2024)
+parse a text into items and reformat or compute values using placeholders and simple arithmetic expressions
+- [tabops](midterm/tabops/tabops.c)
+- [tabops2](midterm/tabops2/tabops2.c)
+
+
+### [Compression Code](final) (final 2024)
+encode and decode text files by replacing frequent words with single-byte codes
+- [tdecode](final/tdecode/tdecode.c)
+- [tencode in C (slow)](final/tencode/tencode.c)
+- [tencode with a bit of C++ (very slow)](final/tencode_cpp_1/tencode.cpp): minimal C++ version (essentially just uses `std::vector` and `std::string` classes instead of manual `malloc`, `realloc` and `free` for dynamic arrays / strings)
+- [tencode with C++ (fast)](final/tencode_cpp_2/tencode.cc): also uses `std::map` and `std::sort` for better performance
+- [tencode with more C++](final/tencode_cpp_3/tencode.cc): uses `<fstream>` (`ifstream`/`ofstream`), stream ops `in.get`/`in.unget`, writes with `cout.put`/`cout.write`, `std::array<std::string,128>`, `std::vector`, `std::map`, `std::sort` + $\lambda$-function, pass-by-ref `ifstream&`, `using namespace std`
+- [tencode with even more C++](final/tencode_cpp_4/tencode.cc): uses `<sstream>` (`std::stringstream`) (no temp files/disk I/O) + generalized `istream&`, rewinds via `buffer.clear()` and `buffer.seekg(0, ios::beg)`
+
+
+
+## Miscellaneous
+
+
+### [Show Bit Pattern](show_bit_pattern/show_bits.c)
 prints the bit pattern of integers.
 
-### How to use:
+#### How to use:
 ```bash
 ./show_bits 42
 ```
@@ -85,27 +107,11 @@ Output:
 ```
 
 
-## [Print Number Recursively](print_number_recursively/print_number_recursively.c)
+### [Print Number Recursively](print_number_recursively/print_number_recursively.c)
 prints an integer using recursion.
 
 
-## [Table Operations](midterm) (midterm 2024)
-parse a text into items and reformat or compute values using placeholders and simple arithmetic expressions
-- [tabops](midterm/tabops/tabops.c)
-- [tabops2](midterm/tabops2/tabops2.c)
-
-
-## [Compression Code](final) (final 2024)
-encode and decode text files by replacing frequent words with single-byte codes
-- [tdecode](final/tdecode/tdecode.c)
-- [tencode in C (slow)](final/tencode/tencode.c)
-- [tencode with a bit of C++ (very slow)](final/tencode_cpp_1/tencode.cpp): minimal C++ version (essentially just uses `std::vector` and `std::string` classes instead of manual `malloc`, `realloc` and `free` for dynamic arrays / strings)
-- [tencode with C++ (fast)](final/tencode_cpp_2/tencode.cc): also uses `std::map` and `std::sort` for better performance
-- [tencode with more C++](final/tencode_cpp_3/tencode.cc): uses `<fstream>` (`ifstream`/`ofstream`), stream ops `in.get`/`in.unget`, writes with `cout.put`/`cout.write`, `std::array<std::string,128>`, `std::vector`, `std::map`, `std::sort` + $\lambda$-function, pass-by-ref `ifstream&`, `using namespace std`
-- [tencode with even more C++](final/tencode_cpp_4/tencode.cc): uses `<sstream>` (`std::stringstream`) (no temp files/disk I/O) + generalized `istream&`, rewinds via `buffer.clear()` and `buffer.seekg(0, ios::beg)`
-
-
-## [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
+### [Hashtable](book-exercises/exercise6-5-hashtable.c) (K&R 6–5)
 string hashtable that stores key-value pairs (both strings) with functions to add, retrieve, and remove entries.
 
 
