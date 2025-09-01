@@ -29,7 +29,10 @@ manages a sequence of lines with add/remove/match operations
 - string parsing/tokenization via `isspace((unsigned char)c)`: `const char *` $\rightarrow$ `std::set<std::string>` (words in line)
 - substring search with `.find()` + `std::string::npos`
 - range-based `for` loops with `auto &`  
-- pass-by-reference (`const auto &`) to avoid copies 
+- pass-by-reference (`const auto &`) to avoid copies
+
+## [String to Color](57_colors/colors.c) (Exercise 57)
+computes RGB values from hex color code string
 
 ## [Text Styles](58_styles/styles_v2.cc) (Exercise 58)
 parses style specs and resolves color names to RGB
