@@ -45,6 +45,7 @@ parses style specs and resolves color names to RGB
 ### [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
 
+### [Iterator](62_iterator/iterator.c) (Exercise 62)
 
 ### [Big Letters](63_bigletters/bigletters.c) (Exercise 63)
 ASCII big-letter renderer that parses a font file and prints enlarged text given as stdin input using a fancy font from the specified font file.
