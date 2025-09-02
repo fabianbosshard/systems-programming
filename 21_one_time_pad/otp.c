@@ -66,4 +66,9 @@ int main(int argc, char * argv[]) {
     fflush(counterfile);
 
     free(counterfile_name);
+
+    fclose(input);
+    fclose(output);
+    fclose(keyfile);
+    fclose(counterfile);
 }
