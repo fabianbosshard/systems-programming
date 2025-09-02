@@ -7,6 +7,9 @@
 
 ### [Path Manipulation](04_path/path.c) (Exercise 4)
 
+### [Set of Integers](13_set/cset.c) (Exercise 13)
+implements a sset of integers using a direct-addressing table
+
 ### [Keywords](29_keywords/keywords_v2.cc) (Exercise 29)
 - initializer list (OOP in C++): some members cannot be assigned to after the object is created (references, const members, members of types with no assignment operator). initializer lists solve that by constructing or binding those members right when the object is being built.
 
