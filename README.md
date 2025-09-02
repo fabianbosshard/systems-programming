@@ -31,6 +31,9 @@ simple publish/subscribe messaging system where a server records the itnerests o
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
+### [Blob Data Structure](48_blob/blob.c) (Exercise 48)
+manages a sequence of bytes stored in a doubly linked list with sentinel of chunks. 
+
 ### [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
