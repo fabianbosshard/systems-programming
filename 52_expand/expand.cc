@@ -22,15 +22,7 @@ void get_rules(char * filename, std::vector<std::string> & P, std::vector<std::s
     bool in_rule = false;
     std::string p, t;
     while (std::getline(input, line)) {
-        if (colons(line) == 0) {
-            if (in_rule) {
-                P.push_back(p);
-                T.push_back(t);
-                p.clear();
-                t.clear();
-                in_rule = false;
-            }
-        } else if (colons(line) == 1) {
+        if (colons(line) > 0) {
             if (in_rule) {
                 if (line[0] == ':') {
                     line[0] = '\n';
@@ -51,9 +43,6 @@ void get_rules(char * filename, std::vector<std::string> & P, std::vector<std::s
                     t = line.substr(line.find(":") + 1);
                 }
             }
-        } else {
-            std::cout << "invalid rules file " << filename << std::endl;
-            exit(EXIT_FAILURE);
         }
     }
     if (in_rule) {
