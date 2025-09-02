@@ -17,4 +17,3 @@ float average_positives(const int * begin, const int * end) {
     float avg = (float) s / (float) N;
     return avg;
 }
-
