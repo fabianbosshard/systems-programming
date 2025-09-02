@@ -6,7 +6,6 @@
 long unsigned encrypt_file(FILE * inp, FILE * outp, FILE * keyf, long unsigned count) {
     int x_pre;
     char x, k, y;
-    int i = 0;
     fseek(keyf, count, SEEK_SET);
     while ((x_pre = getc(inp)) != EOF) {
         k = getc(keyf);
@@ -27,8 +26,6 @@ int main(int argc, char * argv[]) {
 
     FILE * input = stdin;
     FILE * output = stdout;
-
-    int files_processed = 0;
 
     for (int i = 1; i < argc; i++) {
         if (strncmp(argv[i], "in=", 3) == 0) {
@@ -55,7 +52,9 @@ int main(int argc, char * argv[]) {
     }
     counterfile_name[counterfile_name_len] = '\0';
 
-    FILE * counterfile = fopen(counterfile_name, "w+"); // "rw" does not exitst!!! The argument mode points to a string beginning with one of the following letters: “r”     Open for reading.  The stream is positioned at the beginning of the file.  Fail if the file does not exist. “w”     Open for writing.  The stream is positioned at the beginning of the file.  Truncate the file to zero length if it exists or create the file if it does not exist. “a”     Open for writing.  The stream is positioned at the end of the file.  Subsequent writes to the file will always end up at the then current end of file, irrespective of any intervening fseek(3) or similar. Create the file if it does not exist. An optional “+” following “r”, “w”, or “a” opens the file for both reading and writing. 
+    // "rw" does not exitst!!! The argument mode points to a string beginning with one of the following letters: “r”     Open for reading.  The stream is positioned at the beginning of the file.  Fail if the file does not exist. “w”     Open for writing.  The stream is positioned at the beginning of the file.  Truncate the file to zero length if it exists or create the file if it does not exist. “a”     Open for writing.  The stream is positioned at the end of the file.  Subsequent writes to the file will always end up at the then current end of file, irrespective of any intervening fseek(3) or similar. Create the file if it does not exist. An optional “+” following “r”, “w”, or “a” opens the file for both reading and writing. 
+    FILE * counterfile = fopen(counterfile_name, "r+");
+    if (!counterfile) counterfile = fopen(counterfile_name, "w+");
     if (!fscanf(counterfile, "%lu", &counter)) { // use address of counter !!!!!!!!!!!
         counter = 0;
     }
