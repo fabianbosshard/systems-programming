@@ -34,6 +34,11 @@ compares two sequences of words lexicographically: uses `std::vector` and `std::
 ### [Blob Data Structure](48_blob/blob.c) (Exercise 48)
 manages a sequence of bytes stored in a doubly linked list with sentinel of chunks. 
 
+### [Text Expansion](52_expand/expand.cc) (Exercise 52)
+expands patterns in a text according to a set of rules read from a file.
+- rules are represented as two vectors of strings (patterns and their replacements)
+- uses `std::string::substr()`, `std::string::find()` 
+
 ### [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
