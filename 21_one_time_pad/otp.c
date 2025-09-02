@@ -23,7 +23,7 @@ int main(int argc, char * argv[]) {
     char default_keyfile[] = "key";
     char counter_string[] = ".counter";
     char * keyfile_name = default_keyfile;
-    long unsigned counter;
+    long unsigned counter = 0; // initialize to avoid garbage
 
     FILE * input = stdin;
     FILE * output = stdout;
@@ -55,13 +55,16 @@ int main(int argc, char * argv[]) {
     }
     counterfile_name[counterfile_name_len] = '\0';
 
-    FILE * counterfile = fopen(counterfile_name, "rw");
-    if (!fscanf(counterfile, "%ud", counter)) {
+    FILE * counterfile = fopen(counterfile_name, "w+"); // "rw" does not exitst!!! The argument mode points to a string beginning with one of the following letters: “r”     Open for reading.  The stream is positioned at the beginning of the file.  Fail if the file does not exist. “w”     Open for writing.  The stream is positioned at the beginning of the file.  Truncate the file to zero length if it exists or create the file if it does not exist. “a”     Open for writing.  The stream is positioned at the end of the file.  Subsequent writes to the file will always end up at the then current end of file, irrespective of any intervening fseek(3) or similar. Create the file if it does not exist. An optional “+” following “r”, “w”, or “a” opens the file for both reading and writing. 
+    if (!fscanf(counterfile, "%lu", &counter)) { // use address of counter !!!!!!!!!!!
         counter = 0;
     }
+
     counter = encrypt_file(input, output, keyfile, counter);
+
     rewind(counterfile);
-    fprintf(counterfile, "%ud", counter);
+    fprintf(counterfile, "%lu\n", counter); // "lu", not "ud"
+    fflush(counterfile);
 
     free(counterfile_name);
 }
