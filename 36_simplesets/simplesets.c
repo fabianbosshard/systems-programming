@@ -7,9 +7,6 @@
 struct List {
     struct ss * nil;
 };
-struct ID {
-    char dummy;
-};
 struct ss { // list node (corresponds to one singleton x)
     struct ss * next;
     struct ss * prev;
@@ -45,26 +42,32 @@ void list_clear(struct List * L) { // deletes all elements except for the sentin
     while (x != L->nil) {
         struct ss * todelete = x;
         x = x->next;
-        struct ID * id_todelete = todelete->id;
-        if (id_todelete) {
-            struct ss * y = L->nil->next;
-            while (y != L->nil) {
-                struct ss * todelete = y;
-                y = y->next;
-                if (y->id == id_todelete) {
-                    y->id = NULL;
-                }
-            }
-            free(id_todelete);
-        }
         list_delete(todelete);
     }
 }
 /** END: doubly linked list */
 
 
-
 struct List L_ = {NULL};
+
+struct ID {
+    char dummy;
+};
+
+void clear_ids(struct List * L) { 
+    struct ss * x = L->nil->next;
+    while (x != L->nil) {
+        struct ID * id_todelete = x->id;
+        x = x->next;
+        if (id_todelete) {
+            struct ss * y = L->nil->next;
+            while ((y = list_search(L, id_todelete)) != L->nil) {
+                y->id = NULL;
+            }
+            free(id_todelete);
+        }
+    }
+}
 
 /* Create a set containing a single object. */
 struct ss * ss_create_singleton() {
@@ -79,14 +82,13 @@ struct ss * ss_create_singleton() {
 
 /* Destroy all previously created sets. */
 void ss_destroy_all() {
+    clear_ids(&L_);
     list_clear(&L_);
+    free(L_.nil);
+    L_.nil = NULL;
 }
 
-/* Merge two sets into a single set.
- *
- * As a result, all the elements in X and Y belong to the same set,
- * and both X and Y now refer to the same set.
- */
+/* Merge two sets into a single set. */
 void ss_merge(struct ss * X, struct ss * Y) {
     if (X->id == Y->id) return;
 
