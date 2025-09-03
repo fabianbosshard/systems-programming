@@ -8,7 +8,7 @@
 ### [Path Manipulation](04_path/path.c) (Exercise 4)
 
 ### [Set of Integers](13_set/cset.c) (Exercise 13)
-implements a sset of integers using a direct-addressing table
+implements a set of integers using a direct-addressing table
 
 ### [One-Time Pad Encryption](21_one_time_pad/otp.c) (Exercise 21)
 
@@ -27,6 +27,9 @@ simple publish/subscribe messaging system where a server records the itnerests o
 - [single tag (C)](34_35_messaging/34_messaging_single_tag/messaging.c): doubly linked list in C
 - [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag/messaging.cc): `std::set`, `std::map`, `std::string`, `new`, `delete`
 - [multiple tags (C++)](34_35_messaging/35_messaging_multi_tag_withFSM/messaging.cc) with diffent function to parse tags (FSM based)
+
+### [Simple Sets](36_simplesets/simplesets.c) (Exercise 36)
+sets have an identity, if they are merged, they are the same set afterwards
 
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
