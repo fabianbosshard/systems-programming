@@ -85,15 +85,9 @@ void insert_event(std::list<struct Event>::iterator itr, int starting, struct Ro
 }
 
 bool try_reservation(struct Room & r_, room * r, schedule * t, const char * event_name) {
-    if (r->capacity > r_.capacity && r->capacity != ANY_CAPACITY) {
-        return false;
-    }
-    if (r->floor != r_.floor && r->floor != ANY_FLOOR) {
-        return false;
-    }
-    if (r->number != r_.number && r->number != ANY_ROOM_NUMBER) {
-        return false;
-    }
+    if (r->capacity > r_.capacity && r->capacity != ANY_CAPACITY) return false;
+    if (r->floor != r_.floor && r->floor != ANY_FLOOR) return false;
+    if (r->number != r_.number && r->number != ANY_ROOM_NUMBER) return false;
 
     if (r_.E.empty()) {
         insert_event(r_.E.begin(), t->start, r_, r, t, event_name);
