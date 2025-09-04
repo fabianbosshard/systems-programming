@@ -85,27 +85,17 @@ void insert_event(std::list<struct Event>::iterator itr, int starting, struct Ro
 }
 
 bool try_reservation(struct Room & r_, room * r, schedule * t, const char * event_name) {
-    if (r->capacity > r_.capacity && r->capacity != ANY_CAPACITY) return false;
-    if (r->floor != r_.floor && r->floor != ANY_FLOOR) return false;
-    if (r->number != r_.number && r->number != ANY_ROOM_NUMBER) return false;
+    if ((r->capacity > r_.capacity && r->capacity != ANY_CAPACITY) || (r->floor != r_.floor && r->floor != ANY_FLOOR) || (r->number != r_.number && r->number != ANY_ROOM_NUMBER)) return false;
 
-    if (r_.E.empty()) {
-        insert_event(r_.E.begin(), t->start, r_, r, t, event_name);
-        return true;
+    int prev_finish = 0; // gap start
+    auto itr = r_.E.begin(); // iterator for traversing list
+    for (; itr != r_.E.end(); itr++) {
+        if (std::max(prev_finish, t->start) + t->duration <= std::min(itr->start, t->finish)) break; // reservation successful => insert event
+        prev_finish = itr->finish;
+        if (t->finish - t->duration < prev_finish) return false; // no suitable slot exists => reservation unsuccessful
     }
-    int prev_finish = 0;
-    for (auto i = r_.E.begin(); i != r_.E.end(); i++) {
-        if (std::max(prev_finish, t->start) + t->duration <= std::min(i->start, t->finish)) {
-            insert_event(i, std::max(prev_finish, t->start),  r_, r, t, event_name);
-            return true;
-        }
-        prev_finish = i->finish;
-    }
-    if (std::max(prev_finish, t->start) + t->duration <= t->finish) {
-        insert_event(r_.E.end(), std::max(prev_finish, t->start),  r_, r, t, event_name);
-        return true;
-    }
-    return false;
+    insert_event(itr, std::max(prev_finish, t->start),  r_, r, t, event_name);
+    return true;
 }
 
 int make_reservation(room * r, schedule * t, const char * event) {
