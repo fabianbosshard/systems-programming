@@ -94,28 +94,22 @@ bool try_reservation(struct Room & r_, room * r, schedule * t, const char * even
     if (r->number != r_.number && r->number != ANY_ROOM_NUMBER) {
         return false;
     }
+
     if (r_.E.empty()) {
-        insert_event(r_.E.begin(), (t->start > 0) ? t->start : 0, r_, r, t, event_name);
+        insert_event(r_.E.begin(), t->start, r_, r, t, event_name);
         return true;
     }
-    int i; // try putting the new event before the i'th event in the event list
-    for (i = 0; i <= r_.E.size(); i++) {
-        if (i == 0) { 
-            if ((t->duration <= (*next(r_.E.begin(), i)).start - 0) && (0 <= t->finish - t->duration) && (t->start + t->duration <= (*next(r_.E.begin(), i)).start)) {
-                insert_event(next(r_.E.begin(), i), (t->start > 0) ? t->start : 0,  r_, r, t, event_name);
-                return true;
-            }
-        } else if (i == r_.E.size()) { 
-            if ((*next(r_.E.begin(), i-1)).finish <= t->finish - t->duration) {
-                insert_event(next(r_.E.begin(), i), (t->start > (*next(r_.E.begin(), i-1)).finish) ? t->start : (*next(r_.E.begin(), i-1)).finish, r_, r, t, event_name);
-                return true;
-            }
-        } else { 
-            if ((t->duration <= (*next(r_.E.begin(), i)).start - (*next(r_.E.begin(), i-1)).finish) && ((*next(r_.E.begin(), i-1)).finish <= t->finish - t->duration) && (t->start + t->duration <= (*next(r_.E.begin(), i)).start)) {
-                insert_event(next(r_.E.begin(), i), (t->start > (*next(r_.E.begin(), i-1)).finish) ? t->start : (*next(r_.E.begin(), i-1)).finish, r_, r, t, event_name);
-                return true;
-            }
+    int prev_finish = 0;
+    for (auto i = r_.E.begin(); i != r_.E.end(); i++) {
+        if (std::max(prev_finish, t->start) + t->duration <= std::min(i->start, t->finish)) {
+            insert_event(i, std::max(prev_finish, t->start),  r_, r, t, event_name);
+            return true;
         }
+        prev_finish = i->finish;
+    }
+    if (std::max(prev_finish, t->start) + t->duration <= t->finish) {
+        insert_event(r_.E.end(), std::max(prev_finish, t->start),  r_, r, t, event_name);
+        return true;
     }
     return false;
 }
