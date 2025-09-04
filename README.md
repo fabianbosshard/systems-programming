@@ -31,6 +31,10 @@ simple publish/subscribe messaging system where a server records the itnerests o
 ### [Simple Sets](36_simplesets/simplesets.c) (Exercise 36)
 sets have an identity, if they are merged, they are the same set afterwards
 
+### [Room Reservation System](41_rooms/rooms.cc) (Exercise 41)
+
+
+
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
