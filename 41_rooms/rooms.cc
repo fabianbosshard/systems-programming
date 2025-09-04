@@ -12,12 +12,14 @@ struct Event {
     int start;
     int finish;
 };
+
 struct Room {
     int floor;
     int number;
     int capacity;
     std::vector<struct Event> E;
 };
+
 std::vector<struct Room> R;
 
 void clear() {
@@ -39,11 +41,11 @@ void add_rooms(const room * begin, const room * end) {
         if ((r = find_room(i->floor, i->number))) {
             r->capacity = i->capacity;
         } else {
-            r = new struct Room;
-            r->capacity = i->capacity;
-            r->floor = i->floor;
-            r->number = i->number;
-            R.push_back(*r);
+            struct Room r;
+            r.capacity = i->capacity;
+            r.floor = i->floor;
+            r.number = i->number;
+            R.push_back(r);
         }
     }
 }
