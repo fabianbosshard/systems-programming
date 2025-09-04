@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void count_chars(FILE * input, char * target_chars) {
+void count_chars(FILE * input, const unsigned char * target_chars) {
     fflush(stderr);
     unsigned N = strlen(target_chars);
     unsigned * count = malloc(N * sizeof(unsigned));
@@ -22,14 +22,12 @@ void count_chars(FILE * input, char * target_chars) {
     }
     fprintf(stdout, "\n");
     free(count);
-    fflush(stdout);
 }
 
 int main(int argc, char * argv[]) {
     if (argc == 1 || strlen(argv[1]) == 0) {
         fflush(stdout);
         fprintf(stderr, "No target characters specified.\n");
-        fflush(stderr);
         exit(EXIT_FAILURE);
     }
     const unsigned char * target_chars = (const unsigned char *) argv[1];
@@ -37,19 +35,16 @@ int main(int argc, char * argv[]) {
         fflush(stderr);
         fprintf(stdout, "(stdin)");
         count_chars(stdin, target_chars);
-        fflush(stdout);
     } else {
         for (int i = 2; i < argc; i++) {
             FILE * fp = fopen(argv[i], "r");
             if (fp) {
                 fflush(stderr);
-                fprintf(stdout, argv[i]);
+                fprintf(stdout, "%s", argv[i]);
                 count_chars(fp, target_chars);
-                fflush(stdout);
             } else {
                 fflush(stdout);
                 fprintf(stderr, "Error reading file %s\n", argv[i]);
-                fflush(stderr);
             }
         }
     }
