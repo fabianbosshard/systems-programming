@@ -1,4 +1,4 @@
-OBJECTS=rooms.o
+OBJECTS=rooms_with_list.o
 
 CFLAGS=-Wall -g
 CXXFLAGS=-Wall -g
