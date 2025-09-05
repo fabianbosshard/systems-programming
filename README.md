@@ -40,7 +40,9 @@ sets have an identity, if they are merged, they are the same set afterwards
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
 ### [Blob Data Structure](48_blob/blob.c) (Exercise 48)
-manages a sequence of bytes stored in a doubly linked list with sentinel of chunks. 
+manages a sequence of bytes stored in a doubly linked list with sentinel of chunks.
+
+### [Video Serving Platform Statistics](50_videos/videos.c) (Exercise 50)
 
 ### [Text Expansion](52_expand/expand.cc) (Exercise 52)
 expands patterns in a text according to a set of rules read from a file.
