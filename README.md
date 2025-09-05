@@ -42,6 +42,8 @@ compares two sequences of words lexicographically: uses `std::vector` and `std::
 ### [Blob Data Structure](48_blob/blob.c) (Exercise 48)
 manages a sequence of bytes stored in a doubly linked list with sentinel of chunks.
 
+### [Line Length](49_linelen/linelen.c) (Exercise 49)
+
 ### [Video Serving Platform Statistics](50_videos/videos.c) (Exercise 50)
 
 ### [Text Expansion](52_expand/expand.cc) (Exercise 52)
