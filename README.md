@@ -75,6 +75,8 @@ parses style specs and resolves color names to RGB
 ### [Alpha Code](59_alpha/alpha.cc) (Exercise 59)
 "alpha" coding scheme: C-style, but uses an `Encoder` and `Decoder` class to encapsulate data and methods.
 
+### [Rowing Club Management](60_rowing/rowing.cc) (Exercise 60)
+
 ### [Iterator](62_iterator/iterator_v2.c) (Exercise 62)
 
 ### [Big Letters](63_bigletters/bigletters.c) (Exercise 63)
