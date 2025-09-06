@@ -36,6 +36,10 @@ sets have an identity, if they are merged, they are the same set afterwards
 
 ### [Count Specified Characters in Files / stdin](42_countchars/countchars.c) (Exercise 42)
 
+### [Stock Trades Log](43_stocks/stocks.cc) (Exercise 43)
+- used `std::map`, `std::deque`
+- **NEVER** dereference `.end()`! $\rightarrow$ use `.front()` and `.back()` to access first/last element of a deque!
+
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
