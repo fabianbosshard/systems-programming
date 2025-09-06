@@ -12,7 +12,7 @@ struct team {
 
 struct scoreboard {
     int num_teams;
-    struct team * * teams; // array of pointers to team structs
+    struct team ** teams; // array of pointers to team structs
     int max_num_teams;
 };
 
@@ -106,7 +106,17 @@ void print_board(struct scoreboard * b, FILE * output) {
 }
 
 
-int parse_number(char * * pp) {
+char * parse_name(char ** pp) {
+    if (!isalnum(**pp)) exit(EXIT_FAILURE);
+    char * name = *pp;
+    while (isalnum(**pp)) (*pp)++;
+    if (!isblank(**pp)) exit(EXIT_FAILURE);
+    **pp = '\0';
+    (*pp)++;
+    return name;
+}
+
+int parse_number(char ** pp) {
     if (!isdigit(**pp)) exit(EXIT_FAILURE);
     int n = 0;
     while (isdigit(**pp)) {
@@ -119,48 +129,27 @@ int parse_number(char * * pp) {
 void process_line(char * line, struct scoreboard * b) {
     char * p = line;
     while (isblank(*p)) p++;
-    if (*p == '\0') return; // ignore blank and empty lines
+    if (*p == '\0') return;             // ignore blank and empty lines
+    
+    char * name_t1 = parse_name(&p);    // name team 1
+    while (isblank(*p)) p++;            // skip spaces
 
-    // team 1
-    if (!isalnum(*p)) exit(EXIT_FAILURE);
-    char * name_t1 = p;
-    while (isalnum(*p)) p++;
+    char * name_t2 = parse_name(&p);    // name team 2
+    while (isblank(*p)) p++;            // skip spaces
+
+    int s1 = parse_number(&p);          // score team 1
     if (!isblank(*p)) exit(EXIT_FAILURE);
-    *p = '\0';
-    p++;
+    while (isblank(*p)) p++;            // skip spaces
 
-    // skip spaces
-    while (isblank(*p)) p++;
+    int s2 = parse_number(&p);          // score team 2
+    while (isblank(*p)) p++;            // skip spaces
 
-    // team 2
-    if (!isalnum(*p)) exit(EXIT_FAILURE);
-    char * name_t2 = p;
-    while (isalnum(*p)) p++;
-    if (!isblank(*p)) exit(EXIT_FAILURE);
-    *p = '\0';
-    p++;
-
-    // skip spaces
-    while (isblank(*p)) p++;
-
-    // score 1
-    int s1 = parse_number(&p);
-    if (!isblank(*p)) exit(EXIT_FAILURE);
-
-    // skip spaces
-    while (isblank(*p)) p++;
-
-    // score 1
-    int s2 = parse_number(&p);
-
-    // make sure only blanks follow
-    while (isblank(*p)) p++;
-    if (*p != '\0') exit(EXIT_FAILURE);
+    if (*p != '\0') exit(EXIT_FAILURE); // nothing else should follow the second number
 
     add_match(b, name_t1, name_t2, s1, s2);
 }
 
-int get_line(char * * linep, FILE * input) {
+int get_line(char ** linep, FILE * input) {
     unsigned i = 0;
     int c;
     while (1) {
@@ -191,11 +180,9 @@ int main(int argc, char * argv[]) {
     struct scoreboard * b = new_board(max_teams);
 
     char * line = malloc(sizeof(char));
-
     while (get_line(&line, stdin)) {
         process_line(line, b);
     }
-
     free(line);
 
     sort_board(b);
