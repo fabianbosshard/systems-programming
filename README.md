@@ -42,10 +42,9 @@ sets have an identity, if they are merged, they are the same set afterwards
 
 ### [Scoreboard](44_scoreboard/scoreboard.c) (Exercise 44)
 - line reading and parsing with `isblank()`, `isdigit()`, `isalnum()`
-- `struct` with pointer to array of another struct
+- `struct` with pointer to array of struct pointers
 - `malloc()`/`realloc()`/`free()`
-- sorting array of struct according to a custom rule taking into account multiple struct members (in order to break ties)
-
+- sorting array of struct pointers according to a custom rule taking into account multiple struct members (in order to break ties)
 
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
