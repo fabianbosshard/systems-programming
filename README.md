@@ -54,6 +54,8 @@ expands patterns in a text according to a set of rules read from a file.
 ### [Snake Game](53_snake/snake.c) (Exercise 53)
 simple game engine: board state, movement, growth, and collision handling.
 
+### [Open Close Characters](54_openclose/openclose.c) (Exercise 54)
+
 ### [sequence of lines data structure](56_lines/words.cc) (Exercise 56)
 manages a sequence of lines with add/remove/match operations  
 - `new`/`delete` for object lifetime (dynamic allocation)
