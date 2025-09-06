@@ -43,7 +43,7 @@ sets have an identity, if they are merged, they are the same set afterwards
 ### [Scoreboard](44_scoreboard/scoreboard.c) (Exercise 44)
 - line reading and parsing with `isblank()`, `isdigit()`, `isalnum()`
 - struct with pointer to array of another struct
-- malloc/realloc/free
+- `malloc()`/`realloc()`/`free()`
 - sorting array of struct according to a custom rule taking into account multiple struct members (in order to break ties)
 
 
