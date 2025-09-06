@@ -17,6 +17,9 @@ implements a set of integers using a direct-addressing table
 ### [Keywords](29_keywords/keywords_v2.cc) (Exercise 29)
 - initializer list (OOP in C++): some members cannot be assigned to after the object is created (references, const members, members of types with no assignment operator). initializer lists solve that by constructing or binding those members right when the object is being built.
 
+### [Geometric Map](30_geomap/geomap.cc) (Exercise 30)
+uses `std::list` of structs
+
 ### [Table of String Records](31_string_records) (Exercise 31)
  manages a table of string records
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
