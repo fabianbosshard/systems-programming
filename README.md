@@ -40,6 +40,13 @@ sets have an identity, if they are merged, they are the same set afterwards
 - used `std::map`, `std::deque`
 - **NEVER** dereference `.end()`! $\rightarrow$ use `.front()` and `.back()` to access first/last element of a deque!
 
+### [Scoreboard](44_scoreboard/scoreboard.c) (Exercise 44)
+- line reading and parsing with `isblank()`, `isdigit()`, `isalnum()`
+- struct with pointer to array of another struct
+- malloc/realloc/free
+- sorting array of struct according to a custom rule taking into account multiple struct members (in order to break ties)
+
+
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
