@@ -125,6 +125,8 @@ Output:
 ```
 
 
+### [Output Checker](64_ochecker/ochecker.c) (Exercise 64)
+
 ### [Table Operations](midterm) (midterm 2024)
 parse a text into items and reformat or compute values using placeholders and simple arithmetic expressions
 - [tabops](midterm/tabops/tabops.c)
