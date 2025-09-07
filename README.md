@@ -39,6 +39,8 @@ sets have an identity, if they are merged, they are the same set afterwards
 - string manipulation with `.find()`, `.substr()`, `std::string::npos`
 - `std::map<std::string, std::set<std::string>>` to map from source file extension to set of derived file extensions
 
+### [Tank Control System](38_tank_control/tank_control.c) (Exercise 38)
+
 ### [Room Reservation System](41_rooms/rooms_with_list.cc) (Exercise 41)
 `std::list`: inserting, erasing, sorting, traversing using iterator based loops
 
