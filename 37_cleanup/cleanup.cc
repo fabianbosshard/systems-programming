@@ -10,28 +10,7 @@
 
 
 
-
-
 std::map<std::string, std::set<std::string>> read_rules() {
-    /*
-    create empty map from string to set of string (source file -> derived files)
-
-    while (there are lines) {
-        (maybe make stream from line)
-
-        read characters from the line and put the into a string "source" until a dot is encountered
-
-        create empty set "derived"
-        while we are not at the end of the line {
-            split string by dots and put each one into the set "derived"
-        }
-
-        add "source" -> "derived" to the map
-    
-    }
-
-    return map
-    */
     std::ifstream input_stream("RULES");
     std::string line;
     std::map<std::string, std::set<std::string>> R;
@@ -64,20 +43,6 @@ std::map<std::string, std::set<std::string>> read_rules() {
 
 
 void explore_directory(char * dirname, std::map<std::string, std::set<std::string>> & R) {
-    /*
-    for item in directory 
-        if item is regular file and has extension (has one dot that is not at the last position)
-            get extension adn put into string
-            find extension in map.first
-            if found
-                put extension into 
-                get name
-                put name into string
-                for item in directory
-                    if get_name(item) == name and get_extension(item) == extension
-                        print item including directory path
-
-    */
 
     // build set of strings from the directory
     std::set<std::string> filenames;
@@ -92,7 +57,7 @@ void explore_directory(char * dirname, std::map<std::string, std::set<std::strin
     }
     closedir(dirp);
 
-
+    std::set<std::string> deletables;
     for (auto & source_file : filenames) {
         std::string source_name = source_file.substr(0, source_file.find("."));
         std::string source_extension = source_file.substr(source_file.find(".") + 1);
@@ -101,12 +66,15 @@ void explore_directory(char * dirname, std::map<std::string, std::set<std::strin
                 std::string derived_name = file.substr(0, file.find("."));
                 std::string derived_extension = file.substr(file.find(".") + 1);
                 if (derived_name == source_name && R[source_extension].find(derived_extension) != R[source_extension].end()) {
-                    std::cout << dirname << "/" << file << std::endl;
+                    deletables.insert(std::string(dirname) + "/" + file);
                 }
             }
         }
     }
 
+    for (auto & deletable : deletables) {
+        std::cout << deletable << std::endl;
+    }
 }
 
 
@@ -122,11 +90,7 @@ int main(int argc, char * argv[]) {
     //     std::cout << std::endl;
     // }
 
-
     for (int i = 1; i < argc; i++) {
         explore_directory(argv[i], rules);
     }
-
-    
-
 }
