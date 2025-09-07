@@ -41,9 +41,10 @@ int oc_open_file (struct ochecker * oc, const char * fname) {
         oc->data = realloc(oc->data, (i + 1) * sizeof(char));
         if (!oc->data) {oc->state = OC_CLOSED; return 0;}
     }
-    
+
     oc->data[i] = '\0';
     oc->num_bytes = i;
+    fclose(fp);
 
     oc->state = OC_OPEN;
     oc->i = 0;
