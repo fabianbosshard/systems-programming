@@ -34,6 +34,11 @@ simple publish/subscribe messaging system where a server records the itnerests o
 ### [Simple Sets](36_simplesets/simplesets.c) (Exercise 36)
 sets have an identity, if they are merged, they are the same set afterwards
 
+### [Cleanup: detect derived files](37_cleanup/cleanup.cc) (Exercise 37)
+- `dirent.h` library for managing directories: `opendir()`, `readdir()`, `closedir()`, `DIR *`, `struct dirent *`
+- string manipulation with `.find()`, `.substr()`, `std::string::npos`
+- `std::map<std::string, std::set<std::string>>` to map from source file extension to set of derived file extensions
+
 ### [Room Reservation System](41_rooms/rooms_with_list.cc) (Exercise 41)
 `std::list`: inserting, erasing, sorting, traversing using iterator based loops
 
