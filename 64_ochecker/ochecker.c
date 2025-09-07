@@ -18,11 +18,12 @@ struct ochecker {
 struct ochecker * oc_create () {
     struct ochecker * oc = malloc(sizeof(struct ochecker));
     oc->state = OC_CLOSED;
+    oc->data = NULL;
     return oc;
 }
 
 void oc_destroy (struct ochecker * oc) {
-    free(oc->data);
+    if (oc->data) free(oc->data);
     free(oc);
 }
 
@@ -30,6 +31,7 @@ int oc_open_file (struct ochecker * oc, const char * fname) {
     FILE * fp = fopen(fname, "r");
     if (!fp) {oc->state = OC_CLOSED; return 0;}
 
+    if (oc->data) free(oc->data);
     oc->data = malloc(sizeof(char));
     if (!oc->data) {oc->state = OC_CLOSED; return 0;}
     int c = 0;
@@ -57,6 +59,7 @@ int oc_open_mem (struct ochecker * oc, const char * begin, const char * end) {
     if (end < begin) {oc->state = OC_CLOSED; return 0;}
     size_t i = end - begin;
 
+    if (oc->data) free(oc->data);
     oc->data = malloc(sizeof(char) * (i + 1));
     if (!oc->data) {oc->state = OC_CLOSED; return 0;}
 
@@ -75,6 +78,7 @@ int oc_open_mem (struct ochecker * oc, const char * begin, const char * end) {
 int oc_open_str (struct ochecker * oc, const char * s) {
     size_t i = strlen(s);
 
+    if (oc->data) free(oc->data);
     oc->data = malloc(sizeof(char) * (i + 1));
     if (!oc->data) {oc->state = OC_CLOSED; return 0;}
 
@@ -94,6 +98,8 @@ int oc_putc (struct ochecker * oc, char c) {
     if (oc->state != OC_OPEN) return 0;
     if (oc->i == oc->num_bytes || c != oc->data[oc->i]) {
         oc->state = OC_ERROR;
+        if (oc->data) free(oc->data);
+        oc->data = NULL;
         return 0;
     }
     oc->i++;
@@ -125,9 +131,13 @@ int oc_close (struct ochecker * oc) {
     if (oc->state != OC_OPEN) return 0;
     if (oc->i != oc->num_bytes) {
         oc->state = OC_ERROR;
+        if (oc->data) free(oc->data);
+        oc->data = NULL;
         return 0;
     }
     oc->state = OC_CLOSED;
+    if (oc->data) free(oc->data);
+    oc->data = NULL;
     return 1;
 }
 
