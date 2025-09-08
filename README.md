@@ -47,6 +47,10 @@ sets have an identity, if they are merged, they are the same set afterwards
 
 ### [Tank Control System](38_tank_control/tank_control.c) (Exercise 38)
 
+### [Concatenate Lists, Merge Sorted Lists](39_lists) (Exercise 39)
+- [v1](39_lists/lists_v1.c): ugly code...
+- [v2](39_lists/lists_v2.c): more elegant version, using a `struct list ** last_p` pointer-to-pointer to always point to the `next` field of the last node in the merged list (or to the `begin` pointer at the start)
+
 ### [Room Reservation System](41_rooms/rooms_with_list.cc) (Exercise 41)
 `std::list`: inserting, erasing, sorting, traversing using iterator based loops
 
