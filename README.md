@@ -62,6 +62,8 @@ sets have an identity, if they are merged, they are the same set afterwards
 - `malloc()`/`realloc()`/`free()`
 - sorting array of struct pointers according to a custom rule taking into account multiple struct members (in order to break ties)
 
+### [Bufile](45_bufile/bufile.c) (Exercise 45)
+
 ### [Word Comparison](47_wcmp/wcmp.cc) (Exercise 47)
 compares two sequences of words lexicographically: uses `std::vector` and `std::string` classes
 
