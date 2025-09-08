@@ -25,6 +25,12 @@ uses `std::list` of structs
 - [s_table](31_string_records/s_table_cpp1/): `new`, `delete`, `auto`, exceptions (`try {} catch (...) {}`), `std::list`, iterators (`begin()`, `end()`)
 - [s_table](31_string_records/s_table_cpp1/): uses a bit more C++
 
+### [Internet Protocol Port Forwarding Table](33_fwd/fwd.c) (Exercise 33)
+- bitwise operations
+- `stdint.h` for fixed-width integer types (`uint8_t`, `uint32_t`, etc)
+- careful with `sscanf` format specifiers: `%d` is for `int`, use `%hhu` for byte (unsigned char / `u_int8_t`) and `%zu` for `size_t`
+
+
 ### [Messaging System](34_35_messaging) (Exercise 34/35)
 simple publish/subscribe messaging system where a server records the itnerests of receivers and then delivers messages according to those interests
 - [single tag (C)](34_35_messaging/34_messaging_single_tag/messaging.c): doubly linked list in C
