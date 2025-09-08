@@ -30,7 +30,6 @@ uses `std::list` of structs
 - `stdint.h` for fixed-width integer types (`uint8_t`, `uint32_t`, etc)
 - careful with `sscanf` format specifiers: `%d` is for `int`, use `%hhu` for byte (unsigned char / `u_int8_t`) and `%zu` for `size_t`
 
-
 ### [Messaging System](34_35_messaging) (Exercise 34/35)
 simple publish/subscribe messaging system where a server records the itnerests of receivers and then delivers messages according to those interests
 - [single tag (C)](34_35_messaging/34_messaging_single_tag/messaging.c): doubly linked list in C
@@ -50,6 +49,9 @@ sets have an identity, if they are merged, they are the same set afterwards
 ### [Concatenate Lists, Merge Sorted Lists](39_lists) (Exercise 39)
 - [v1](39_lists/lists_v1.c): ugly code...
 - [v2](39_lists/lists_v2.c): more elegant version, using a `struct list ** last_p` pointer-to-pointer to always point to the `next` field of the last node in the merged list (or to the `begin` pointer at the start)
+- [v3](39_lists/lists_v3.c): shorter version
+
+### [Processes Database](40_processes/processes.c) (Exercise 40)
 
 ### [Room Reservation System](41_rooms/rooms_with_list.cc) (Exercise 41)
 `std::list`: inserting, erasing, sorting, traversing using iterator based loops

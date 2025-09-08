@@ -22,8 +22,8 @@ struct list * merge_sorted(struct list * a, struct list * b) {
     struct list * l = 0;
     struct list ** last_p = &l;
 
-    while (a && b) {
-        if (a->value < b->value) {
+    while (a || b) {
+        if (a && (!b || a->value < b->value)) {
             *last_p = a;
             last_p = &(a->next);
             a = a->next;
@@ -32,16 +32,6 @@ struct list * merge_sorted(struct list * a, struct list * b) {
             last_p = &(b->next);
             b = b->next;
         }
-    }
-    while (a) {
-        *last_p = a;
-        last_p = &(a->next);
-        a = a->next;
-    }
-    while (b) {
-        *last_p = b;
-        last_p = &(b->next);
-        b = b->next;
     }
 
     return l;

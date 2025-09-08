@@ -1,4 +1,4 @@
-OBJECTS=lists_v3.o
+OBJECTS=processes.o
 
 CFLAGS=-Wall -g
 CXXFLAGS=-Wall -g
